@@ -1,52 +1,102 @@
 # NixOS
 
-Repositorio declarativo da workstation NixOS `nixos`.
+Configuracao declarativa da workstation `nixos`, baseada em flake e separada dos dotfiles de usuario.
 
-Este repo e a fonte de verdade para configuracao de sistema. Os dotfiles continuam em um repo separado e cuidam apenas do ambiente de usuario.
+Este repo concentra o que realmente muda o comportamento da maquina: boot, desktop, GPU hibrida, rede, servicos, pacotes globais e stack local de IA. Shell, Neovim, OpenCode e outras preferencias de usuario continuam no repo de dotfiles.
 
-## Estrutura
+## O que tem aqui
 
-- `flake.nix`: entrada principal do sistema.
-- `hosts/nixos/`: definicao do host atual.
-- `modules/common/`: base do sistema, desktop e pacotes.
-- `modules/services/`: servicos e ajustes ligados ao hardware da maquina.
-- `modules/ai/`: stack local do Qwen 3.5 35B A3B via `llama.cpp`.
-- `modules/compat/`: compatibilidade entre sistema e configuracoes de usuario.
-- `docs/`: notas operacionais do host.
-- `bin/`: atalhos para validar e aplicar a configuracao.
+- Host `nixos` pronto para `nixos-rebuild --flake`.
+- Base pinada em `nixos-25.11`.
+- Overlay pratico com `nixpkgs-unstable` para componentes mais volateis.
+- Build custom do `llama.cpp` com CUDA arch `120`.
+- Wrappers do Qwen 3.5 35B A3B para chat, server e download.
+- Compatibilidade local para `bubblewrap` e plugins do shell.
+- Modulos separados por area, sem enfiar tudo em um `configuration.nix` gigante.
 
-## Como usar
+## Layout
 
-Validar a configuracao sem trocar o boot default:
+```text
+.
+├── flake.nix
+├── hosts/
+│   └── nixos/
+├── modules/
+│   ├── ai/
+│   ├── common/
+│   ├── compat/
+│   └── services/
+├── docs/
+└── bin/
+```
+
+## Modulos
+
+- `hosts/nixos/`: ponto de entrada do host atual.
+- `modules/common/base.nix`: locale, boot, usuario, Docker, fontes e base do sistema.
+- `modules/common/desktop.nix`: X11, GNOME, Hyprland, NVIDIA/AMD, XRDP, PipeWire e Tailscale.
+- `modules/common/packages.nix`: pacotes globais e ferramentas do dia a dia.
+- `modules/services/mt7902-driver.nix`: carga do driver Wi-Fi custom e ajuste do NetworkManager.
+- `modules/ai/qwen35-a3b.nix`: `llama.cpp` com CUDA + wrappers `qwen35-a3b-*`.
+- `modules/compat/user-dotfiles.nix`: compatibilidade entre sistema e ambiente de usuario.
+
+## Uso rapido
+
+Checar o flake:
+
+```bash
+cd ~/repos/nixos
+./bin/check
+```
+
+Validar sem trocar o boot default:
 
 ```bash
 cd ~/repos/nixos
 ./bin/test
 ```
 
-Aplicar a configuracao:
+Aplicar de forma persistente:
 
 ```bash
 cd ~/repos/nixos
 ./bin/switch
 ```
 
-Tambem funciona sem entrar no repo:
+Tambem funciona direto:
 
 ```bash
 sudo nixos-rebuild test --flake ~/repos/nixos#nixos
 sudo nixos-rebuild switch --flake ~/repos/nixos#nixos
 ```
 
-## Notas do host
+## Dependencias locais
 
-- O repo assume o hostname `nixos`.
-- O driver Wi-Fi depende de arquivos locais em `/home/fmazzuco/mt7902-driver`.
-- O modelo GGUF do Qwen continua fora do repo em `/home/fmazzuco/models/qwen/Qwen3.5-35B-A3B-GGUF`.
-- O provider do `opencode` continua no repo de dotfiles.
+Alguns itens continuam fora do repo por serem hardware-specific ou estado local:
+
+- `/home/fmazzuco/mt7902-driver`: binarios e firmware do driver Wi-Fi.
+- `/home/fmazzuco/models/qwen/Qwen3.5-35B-A3B-GGUF`: modelos GGUF.
+- Segredos, tokens, caches e credenciais.
+
+## Relacao com os dotfiles
+
+Separacao adotada:
+
+- Este repo: sistema operacional e comportamento da maquina.
+- Repo de dotfiles: configuracoes de usuario e apps, como `zsh`, `nvim` e `opencode`.
+
+Na pratica, o provider do OpenCode que aponta para o Qwen local continua no repo de dotfiles, enquanto o servidor local e os binarios que o sustentam ficam aqui.
 
 ## Fluxo recomendado
 
-1. Editar este repo.
-2. Rodar `./bin/check` e `./bin/test`.
-3. Aplicar com `./bin/switch` quando a mudanca precisar ficar persistente.
+1. Editar o modulo certo.
+2. Rodar `./bin/check`.
+3. Rodar `./bin/test`.
+4. Aplicar com `./bin/switch` quando fizer sentido.
+
+## Notas do host atual
+
+- Hostname esperado: `nixos`.
+- `system.stateVersion`: `25.11`.
+- O repo foi pensado para a configuracao real desta workstation, nao como template generico.
+- A documentacao do preset local do Qwen esta em `docs/qwen35-a3b.md`.
