@@ -5,7 +5,6 @@
     ../../modules/common/base.nix
     ../../modules/common/desktop.nix
     ../../modules/common/packages.nix
-    ../../modules/services/mt7902-driver.nix
     ../../modules/ai/qwen35-a3b.nix
     ../../modules/compat/user-dotfiles.nix
   ];

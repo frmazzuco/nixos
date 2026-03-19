@@ -13,6 +13,8 @@ Comandos:
 - `qwen35-a3b-download`
 - `qwen35-a3b-chat`
 - `qwen35-a3b-server`
+- `systemctl --user status qwen35-a3b-server`
+- `systemctl --user restart qwen35-a3b-server`
 
 Preset aplicado para esta RTX 5070 Ti 16 GB:
 
@@ -48,6 +50,11 @@ Overrides uteis:
 API local:
 
 - `http://127.0.0.1:8080`
+
+Servico:
+
+- O repo agora declara `systemd.user.services.qwen35-a3b-server`.
+- O server sobe com a sessao do usuario e atende em `127.0.0.1:8080`, que e o endpoint esperado pelo `opencode`.
 
 Observacoes:
 

@@ -11,6 +11,7 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - Overlay pratico com `nixpkgs-unstable` para componentes mais volateis.
 - Build custom do `llama.cpp` com CUDA arch `120`.
 - Wrappers do Qwen 3.5 35B A3B para chat, server e download.
+- Servico `systemd --user` para manter o server do Qwen disponivel para o OpenCode.
 - Compatibilidade local para `bubblewrap` e plugins do shell.
 - Modulos separados por area, sem enfiar tudo em um `configuration.nix` gigante.
 
@@ -24,8 +25,7 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 ├── modules/
 │   ├── ai/
 │   ├── common/
-│   ├── compat/
-│   └── services/
+│   └── compat/
 ├── docs/
 └── bin/
 ```
@@ -36,8 +36,7 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - `modules/common/base.nix`: locale, boot, usuario, Docker, fontes e base do sistema.
 - `modules/common/desktop.nix`: X11, GNOME, Hyprland, NVIDIA/AMD, XRDP, PipeWire e Tailscale.
 - `modules/common/packages.nix`: pacotes globais e ferramentas do dia a dia.
-- `modules/services/mt7902-driver.nix`: carga do driver Wi-Fi custom e ajuste do NetworkManager.
-- `modules/ai/qwen35-a3b.nix`: `llama.cpp` com CUDA + wrappers `qwen35-a3b-*`.
+- `modules/ai/qwen35-a3b.nix`: `llama.cpp` com CUDA, wrappers `qwen35-a3b-*` e servico local para o OpenCode.
 - `modules/compat/user-dotfiles.nix`: compatibilidade entre sistema e ambiente de usuario.
 
 ## Uso rapido
@@ -70,11 +69,18 @@ sudo nixos-rebuild test --flake ~/repos/nixos#nixos
 sudo nixos-rebuild switch --flake ~/repos/nixos#nixos
 ```
 
+Gerenciar o server do Qwen no usuario:
+
+```bash
+systemctl --user status qwen35-a3b-server
+systemctl --user restart qwen35-a3b-server
+journalctl --user -u qwen35-a3b-server -f
+```
+
 ## Dependencias locais
 
 Alguns itens continuam fora do repo por serem hardware-specific ou estado local:
 
-- `/home/fmazzuco/mt7902-driver`: binarios e firmware do driver Wi-Fi.
 - `/home/fmazzuco/models/qwen/Qwen3.5-35B-A3B-GGUF`: modelos GGUF.
 - Segredos, tokens, caches e credenciais.
 
@@ -85,7 +91,7 @@ Separacao adotada:
 - Este repo: sistema operacional e comportamento da maquina.
 - Repo de dotfiles: configuracoes de usuario e apps, como `zsh`, `nvim` e `opencode`.
 
-Na pratica, o provider do OpenCode que aponta para o Qwen local continua no repo de dotfiles, enquanto o servidor local e os binarios que o sustentam ficam aqui.
+Na pratica, o provider do OpenCode que aponta para o Qwen local continua no repo de dotfiles, enquanto o servidor local, os binarios e o servico `systemd --user` que o sustenta ficam aqui.
 
 ## Fluxo recomendado
 

@@ -102,4 +102,15 @@ in
     qwen35A3BChat
     qwen35A3BServer
   ];
+
+  systemd.user.services.qwen35-a3b-server = {
+    description = "Qwen 3.5 35B A3B local OpenAI-compatible server";
+    wantedBy = [ "default.target" ];
+    serviceConfig = {
+      ExecStart = "${qwen35A3BServer}/bin/qwen35-a3b-server";
+      Restart = "on-failure";
+      RestartSec = 5;
+      WorkingDirectory = "/home/fmazzuco";
+    };
+  };
 }
