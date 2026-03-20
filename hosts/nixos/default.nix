@@ -6,6 +6,7 @@
     ../../modules/common/desktop.nix
     ../../modules/common/packages.nix
     ../../modules/ai/qwen35-a3b.nix
+    ../../modules/ai/qwen35-9b.nix
     ../../modules/compat/user-dotfiles.nix
   ];
 

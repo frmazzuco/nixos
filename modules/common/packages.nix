@@ -66,5 +66,7 @@ in
     networkmanagerapplet
     pavucontrol
     playerctl
+    btop
+    unstablePackages.openrgb
   ];
 }

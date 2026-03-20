@@ -43,10 +43,68 @@ let
 
     export CUDA_VISIBLE_DEVICES="''${CUDA_VISIBLE_DEVICES:-0}"
 
+    PROFILE="''${QWEN35_A3B_PROFILE:-instruct}"
+    case "$PROFILE" in
+      thinking|thinking-general)
+        DEFAULT_REASONING_FORMAT="deepseek"
+        DEFAULT_REASONING_BUDGET="-1"
+        DEFAULT_TEMP="1.0"
+        DEFAULT_TOP_P="0.95"
+        DEFAULT_TOP_K="20"
+        DEFAULT_MIN_P="0.0"
+        DEFAULT_PRESENCE_PENALTY="1.5"
+        DEFAULT_REPEAT_PENALTY="1.0"
+        ;;
+      thinking-coding)
+        DEFAULT_REASONING_FORMAT="deepseek"
+        DEFAULT_REASONING_BUDGET="-1"
+        DEFAULT_TEMP="0.6"
+        DEFAULT_TOP_P="0.95"
+        DEFAULT_TOP_K="20"
+        DEFAULT_MIN_P="0.0"
+        DEFAULT_PRESENCE_PENALTY="0.0"
+        DEFAULT_REPEAT_PENALTY="1.0"
+        ;;
+      instruct-reasoning)
+        DEFAULT_REASONING_FORMAT="none"
+        DEFAULT_REASONING_BUDGET="0"
+        DEFAULT_TEMP="1.0"
+        DEFAULT_TOP_P="0.95"
+        DEFAULT_TOP_K="20"
+        DEFAULT_MIN_P="0.0"
+        DEFAULT_PRESENCE_PENALTY="1.5"
+        DEFAULT_REPEAT_PENALTY="1.0"
+        ;;
+      instruct|instruct-general)
+        DEFAULT_REASONING_FORMAT="none"
+        DEFAULT_REASONING_BUDGET="0"
+        DEFAULT_TEMP="0.7"
+        DEFAULT_TOP_P="0.8"
+        DEFAULT_TOP_K="20"
+        DEFAULT_MIN_P="0.0"
+        DEFAULT_PRESENCE_PENALTY="1.5"
+        DEFAULT_REPEAT_PENALTY="1.0"
+        ;;
+      *)
+        echo "Perfil QWEN35_A3B_PROFILE invalido: $PROFILE" >&2
+        echo "Use: instruct, instruct-reasoning, thinking-general ou thinking-coding" >&2
+        exit 1
+        ;;
+    esac
+
     exec ${llamaCppCuda}/bin/llama-cli \
       --model "$MODEL_FILE" \
       --conversation \
       --jinja \
+      --no-prefill-assistant \
+      --reasoning-format "''${QWEN35_A3B_REASONING_FORMAT:-$DEFAULT_REASONING_FORMAT}" \
+      --reasoning-budget "''${QWEN35_A3B_REASONING_BUDGET:-$DEFAULT_REASONING_BUDGET}" \
+      --temp "''${QWEN35_A3B_TEMP:-$DEFAULT_TEMP}" \
+      --top-p "''${QWEN35_A3B_TOP_P:-$DEFAULT_TOP_P}" \
+      --top-k "''${QWEN35_A3B_TOP_K:-$DEFAULT_TOP_K}" \
+      --min-p "''${QWEN35_A3B_MIN_P:-$DEFAULT_MIN_P}" \
+      --presence-penalty "''${QWEN35_A3B_PRESENCE_PENALTY:-$DEFAULT_PRESENCE_PENALTY}" \
+      --repeat-penalty "''${QWEN35_A3B_REPEAT_PENALTY:-$DEFAULT_REPEAT_PENALTY}" \
       --ctx-size "''${QWEN35_A3B_CTX:-65536}" \
       --batch-size "''${QWEN35_A3B_BATCH:-1024}" \
       --ubatch-size "''${QWEN35_A3B_UBATCH:-256}" \
@@ -74,11 +132,69 @@ let
 
     export CUDA_VISIBLE_DEVICES="''${CUDA_VISIBLE_DEVICES:-0}"
 
+    PROFILE="''${QWEN35_A3B_PROFILE:-instruct}"
+    case "$PROFILE" in
+      thinking|thinking-general)
+        DEFAULT_REASONING_FORMAT="deepseek"
+        DEFAULT_REASONING_BUDGET="-1"
+        DEFAULT_TEMP="1.0"
+        DEFAULT_TOP_P="0.95"
+        DEFAULT_TOP_K="20"
+        DEFAULT_MIN_P="0.0"
+        DEFAULT_PRESENCE_PENALTY="1.5"
+        DEFAULT_REPEAT_PENALTY="1.0"
+        ;;
+      thinking-coding)
+        DEFAULT_REASONING_FORMAT="deepseek"
+        DEFAULT_REASONING_BUDGET="-1"
+        DEFAULT_TEMP="0.6"
+        DEFAULT_TOP_P="0.95"
+        DEFAULT_TOP_K="20"
+        DEFAULT_MIN_P="0.0"
+        DEFAULT_PRESENCE_PENALTY="0.0"
+        DEFAULT_REPEAT_PENALTY="1.0"
+        ;;
+      instruct-reasoning)
+        DEFAULT_REASONING_FORMAT="none"
+        DEFAULT_REASONING_BUDGET="0"
+        DEFAULT_TEMP="1.0"
+        DEFAULT_TOP_P="0.95"
+        DEFAULT_TOP_K="20"
+        DEFAULT_MIN_P="0.0"
+        DEFAULT_PRESENCE_PENALTY="1.5"
+        DEFAULT_REPEAT_PENALTY="1.0"
+        ;;
+      instruct|instruct-general)
+        DEFAULT_REASONING_FORMAT="none"
+        DEFAULT_REASONING_BUDGET="0"
+        DEFAULT_TEMP="0.7"
+        DEFAULT_TOP_P="0.8"
+        DEFAULT_TOP_K="20"
+        DEFAULT_MIN_P="0.0"
+        DEFAULT_PRESENCE_PENALTY="1.5"
+        DEFAULT_REPEAT_PENALTY="1.0"
+        ;;
+      *)
+        echo "Perfil QWEN35_A3B_PROFILE invalido: $PROFILE" >&2
+        echo "Use: instruct, instruct-reasoning, thinking-general ou thinking-coding" >&2
+        exit 1
+        ;;
+    esac
+
     exec ${llamaCppCuda}/bin/llama-server \
       --model "$MODEL_FILE" \
       --host "''${QWEN35_A3B_HOST:-127.0.0.1}" \
       --port "''${QWEN35_A3B_PORT:-8080}" \
       --jinja \
+      --no-prefill-assistant \
+      --reasoning-format "''${QWEN35_A3B_REASONING_FORMAT:-$DEFAULT_REASONING_FORMAT}" \
+      --reasoning-budget "''${QWEN35_A3B_REASONING_BUDGET:-$DEFAULT_REASONING_BUDGET}" \
+      --temp "''${QWEN35_A3B_TEMP:-$DEFAULT_TEMP}" \
+      --top-p "''${QWEN35_A3B_TOP_P:-$DEFAULT_TOP_P}" \
+      --top-k "''${QWEN35_A3B_TOP_K:-$DEFAULT_TOP_K}" \
+      --min-p "''${QWEN35_A3B_MIN_P:-$DEFAULT_MIN_P}" \
+      --presence-penalty "''${QWEN35_A3B_PRESENCE_PENALTY:-$DEFAULT_PRESENCE_PENALTY}" \
+      --repeat-penalty "''${QWEN35_A3B_REPEAT_PENALTY:-$DEFAULT_REPEAT_PENALTY}" \
       --ctx-size "''${QWEN35_A3B_CTX:-65536}" \
       --batch-size "''${QWEN35_A3B_BATCH:-1024}" \
       --ubatch-size "''${QWEN35_A3B_UBATCH:-256}" \
@@ -105,8 +221,10 @@ in
 
   systemd.user.services.qwen35-a3b-server = {
     description = "Qwen 3.5 35B A3B local OpenAI-compatible server";
+    conflicts = [ "qwen35-9b-server.service" ];
     wantedBy = [ "default.target" ];
     serviceConfig = {
+      Environment = [ "QWEN35_A3B_PROFILE=thinking-general" ];
       ExecStart = "${qwen35A3BServer}/bin/qwen35-a3b-server";
       Restart = "on-failure";
       RestartSec = 5;

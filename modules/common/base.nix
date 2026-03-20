@@ -1,4 +1,10 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
+let
+  unstablePackages = import inputs.nixpkgs-unstable {
+    system = pkgs.stdenv.hostPlatform.system;
+    config.allowUnfree = true;
+  };
+in
 {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -36,12 +42,14 @@
   '';
 
   console.keyMap = "br-abnt2";
+  hardware.i2c.enable = true;
 
   users.users.fmazzuco = {
     isNormalUser = true;
     description = "Francisco Mazzuco Filho";
     shell = pkgs.zsh;
     extraGroups = [
+      "i2c"
       "networkmanager"
       "wheel"
       "docker"
@@ -52,6 +60,7 @@
   programs.firefox.enable = true;
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
+  services.udev.packages = [ unstablePackages.openrgb ];
 
   virtualisation.docker.enable = true;
 

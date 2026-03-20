@@ -44,6 +44,7 @@ Overrides uteis:
 - `QWEN35_A3B_THREADS`
 - `QWEN35_A3B_THREADS_BATCH`
 - `QWEN35_A3B_PARALLEL`
+- `QWEN35_A3B_REASONING_BUDGET`
 - `QWEN35_A3B_HOST`
 - `QWEN35_A3B_PORT`
 
@@ -55,6 +56,7 @@ Servico:
 
 - O repo agora declara `systemd.user.services.qwen35-a3b-server`.
 - O server sobe com a sessao do usuario e atende em `127.0.0.1:8080`, que e o endpoint esperado pelo `opencode`.
+- O modo de thinking do template foi desativado no server com `--reasoning-budget 0` e `--reasoning-format none`, para evitar respostas interminaveis no `opencode`.
 
 Observacoes:
 
