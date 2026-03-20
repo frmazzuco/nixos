@@ -221,7 +221,10 @@ in
 
   systemd.user.services.qwen35-a3b-server = {
     description = "Qwen 3.5 35B A3B local OpenAI-compatible server";
-    conflicts = [ "qwen35-9b-server.service" ];
+    conflicts = [
+      "qwen35-9b-server.service"
+      "qwen35-27b-server.service"
+    ];
     wantedBy = [ "default.target" ];
     serviceConfig = {
       Environment = [ "QWEN35_A3B_PROFILE=thinking-general" ];

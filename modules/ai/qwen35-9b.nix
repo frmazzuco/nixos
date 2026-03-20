@@ -215,7 +215,10 @@ in
 
   systemd.user.services.qwen35-9b-server = {
     description = "Qwen 3.5 9B local OpenAI-compatible server";
-    conflicts = [ "qwen35-a3b-server.service" ];
+    conflicts = [
+      "qwen35-a3b-server.service"
+      "qwen35-27b-server.service"
+    ];
     serviceConfig = {
       Environment = [
         "QWEN35_9B_PROFILE=instruct-fast"

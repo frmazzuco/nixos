@@ -79,10 +79,12 @@ systemctl --user status qwen35-a3b-server
 systemctl --user restart qwen35-a3b-server
 systemctl --user start qwen35-9b-server
 systemctl --user stop qwen35-9b-server
+systemctl --user start qwen35-27b-server
+systemctl --user stop qwen35-27b-server
 journalctl --user -u qwen35-a3b-server -f
 ```
 
-Os dois presets podem coexistir no host, mas nao devem ficar ativos ao mesmo tempo na GPU. Os servicos `qwen35-a3b-server` e `qwen35-9b-server` foram declarados com `Conflicts=` para evitar disputa de VRAM.
+Os tres presets podem coexistir no host, mas nao devem ficar ativos ao mesmo tempo na GPU. Os servicos `qwen35-a3b-server`, `qwen35-9b-server` e `qwen35-27b-server` foram declarados com `Conflicts=` para evitar disputa de VRAM.
 
 ## Dependencias locais
 
@@ -90,6 +92,7 @@ Alguns itens continuam fora do repo por serem hardware-specific ou estado local:
 
 - `/home/fmazzuco/models/qwen/Qwen3.5-35B-A3B-GGUF`: modelos GGUF.
 - `/home/fmazzuco/models/qwen/Qwen3.5-9B-GGUF`: modelos GGUF.
+- `/home/fmazzuco/models/qwen/Qwen3.5-27B-GGUF`: modelos GGUF.
 - Segredos, tokens, caches e credenciais.
 
 ## Relacao com os dotfiles
@@ -115,3 +118,4 @@ Na pratica, o provider do OpenCode que aponta para o Qwen local continua no repo
 - O repo foi pensado para a configuracao real desta workstation, nao como template generico.
 - A documentacao do preset local do Qwen esta em `docs/qwen35-a3b.md`.
 - A documentacao do preset rapido do Qwen esta em `docs/qwen35-9b.md`.
+- A documentacao do preset local do Unsloth 27B esta em `docs/qwen35-27b-unsloth.md`.
