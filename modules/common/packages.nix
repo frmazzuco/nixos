@@ -12,6 +12,7 @@ in
     bubblewrap
     git
     git-lfs
+    gh
     neovim
     tmux
     zsh
