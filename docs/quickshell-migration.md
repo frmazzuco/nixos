@@ -36,9 +36,12 @@ Estado consolidado da migracao do desktop para Quickshell, separando runtime de 
 ## Convencoes da base
 
 - estado efemero fica em `${XDG_RUNTIME_DIR}/quickshell-state`
+- a fila de comandos dos widgets fica em `${XDG_RUNTIME_DIR}/quickshell-state/commands`
 - caches do Quickshell ficam em `${XDG_CACHE_HOME:-~/.cache}/quickshell`
+- logs de bootstrap do Quickshell ficam em `${XDG_CACHE_HOME:-~/.cache}/quickshell/main.log` e `${XDG_CACHE_HOME:-~/.cache}/quickshell/topbar.log`
 - a pasta padrao de wallpapers e `~/Wallpapers`
 - `waybar` nao faz mais parte do fluxo do Hyprland atual
+- testes de shell do manager/startup/workspaces ficam em `repos/dotfiles/tests/quickshell/run.sh`
 
 ## Integracoes opcionais
 
