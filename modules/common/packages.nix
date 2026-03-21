@@ -55,7 +55,6 @@ in
       exec ${wl-clipboard}/bin/wl-paste "$@"
     '')
     nodejs
-    kitty
     waybar
     rofi
     mako
