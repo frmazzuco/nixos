@@ -47,6 +47,7 @@ in
     xfce.garcon
     xfce.xfce4-terminal
     xfce.thunar
+    unstablePackages.claude-code
     unstablePackages.opencode
     (writeShellScriptBin "pbcopy" ''
       exec ${wl-clipboard}/bin/wl-copy "$@"

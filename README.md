@@ -12,6 +12,7 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - Build custom do `llama.cpp` com CUDA arch `120`.
 - Wrappers do Qwen 3.5 35B A3B para chat, server e download.
 - Wrappers do Qwen 3.5 9B para chat, server e download, com preset padrao para baixa latencia.
+- `claude-code` disponivel globalmente no host via `nixpkgs-unstable`.
 - Servico `systemd --user` para manter o `qwen35-9b-server` disponivel para o OpenCode.
 - Harness local sem privilegios para validar flake, defaults e sincronismo basico entre codigo e docs.
 - Compatibilidade local para `bubblewrap` e plugins do shell.
