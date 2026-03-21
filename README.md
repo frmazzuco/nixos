@@ -38,6 +38,7 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - `modules/common/base.nix`: locale, boot, usuario, Docker, fontes e base do sistema.
 - `modules/common/desktop.nix`: X11, GNOME, Hyprland, NVIDIA/AMD, XRDP, PipeWire e Tailscale.
 - `modules/common/packages.nix`: pacotes globais e ferramentas do dia a dia.
+- `modules/common/quickshell-core.nix`: runtime do Quickshell e dependencias da barra/widgets.
 - `modules/ai/qwen35-a3b.nix`: `llama.cpp` com CUDA e wrappers `qwen35-a3b-*` para uso manual.
 - `modules/ai/qwen35-9b.nix`: wrappers `qwen35-9b-*` e servico local padrao para o OpenCode.
 - `modules/compat/user-dotfiles.nix`: compatibilidade entre sistema e ambiente de usuario.
@@ -123,3 +124,4 @@ Na pratica, o provider do OpenCode que aponta para o Qwen local continua no repo
 - A documentacao do preset local do Qwen esta em `docs/qwen35-a3b.md`.
 - A documentacao do preset rapido do Qwen esta em `docs/qwen35-9b.md`.
 - A documentacao do preset local do Unsloth 27B esta em `docs/qwen35-27b-unsloth.md`.
+- O estado da migracao do desktop para Quickshell esta em `docs/quickshell-migration.md`.
