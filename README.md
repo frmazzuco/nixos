@@ -13,7 +13,7 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - Wrappers do Qwen 3.5 35B A3B para chat, server e download.
 - Wrappers do Qwen 3.5 9B para chat, server e download, com preset padrao para baixa latencia.
 - Servico `systemd --user` para manter o `qwen35-9b-server` disponivel para o OpenCode.
-- Thinking desativado no server local do Qwen para evitar loops longos no OpenCode.
+- Harness local sem privilegios para validar flake, defaults e sincronismo basico entre codigo e docs.
 - Compatibilidade local para `bubblewrap` e plugins do shell.
 - Modulos separados por area, sem enfiar tudo em um `configuration.nix` gigante.
 
@@ -50,6 +50,13 @@ Checar o flake:
 ```bash
 cd ~/repos/nixos
 ./bin/check
+```
+
+Rodar o harness local:
+
+```bash
+cd ~/repos/nixos
+./bin/harness
 ```
 
 Validar sem trocar o boot default:
@@ -112,7 +119,7 @@ Na pratica, o provider do OpenCode que aponta para o Qwen local continua no repo
 ## Fluxo recomendado
 
 1. Editar o modulo certo.
-2. Rodar `./bin/check`.
+2. Rodar `./bin/harness`.
 3. Rodar `./bin/test`.
 4. Aplicar com `./bin/switch` quando fizer sentido.
 
@@ -121,6 +128,9 @@ Na pratica, o provider do OpenCode que aponta para o Qwen local continua no repo
 - Hostname esperado: `nixos`.
 - `system.stateVersion`: `25.11`.
 - O repo foi pensado para a configuracao real desta workstation, nao como template generico.
+- As regras operacionais para agentes e contribuidores estao em `AGENTS.md`.
+- O mapa curto do host esta em `docs/architecture/host-map.md`.
+- O harness de qualidade esta em `docs/operations/harness.md`.
 - A documentacao do preset local do Qwen esta em `docs/qwen35-a3b.md`.
 - A documentacao do preset rapido do Qwen esta em `docs/qwen35-9b.md`.
 - A documentacao do preset local do Unsloth 27B esta em `docs/qwen35-27b-unsloth.md`.

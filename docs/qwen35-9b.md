@@ -20,7 +20,7 @@ Comandos:
 
 Preset aplicado para esta RTX 5070 Ti 16 GB:
 
-- `ctx-size=8192`
+- `ctx-size=131072`
 - `batch-size=2048`
 - `ubatch-size=512`
 - `flash-attn=on`
@@ -73,6 +73,7 @@ Observacoes:
 
 - O `35B-A3B` e o `9B` podem coexistir instalados, mas nao devem ficar ativos juntos na GPU. Os servicos tem `Conflicts=` para garantir isso.
 - O `qwen35-9b-server` e o preset padrao da sessao do usuario e ocupa o endpoint esperado pelo `opencode`.
-- O `9B` foi deixado com contexto menor por padrao para reduzir custo de prefill e manter a resposta mais rapida.
+- O servico do `9B` sobe por padrao na sessao do usuario com `QWEN35_9B_CTX=131072`.
+- O contexto de `128k` aumenta o custo de prefill, mas foi mantido como default atual do servico para preservar a janela longa do setup local.
 - O melhor ponto de velocidade medido ate agora foi `IQ4_XS` com KV em `q4_0/q4_0`.
 - Se quiser abrir um endpoint paralelo em outra porta, rode o binario manualmente com `QWEN35_9B_PORT=8081 qwen35-9b-server`, mas pare o `35B-A3B` antes.

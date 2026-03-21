@@ -57,7 +57,8 @@ Servico:
 - O repo agora declara `systemd.user.services.qwen35-a3b-server`.
 - O `35B-A3B` fica para start manual quando voce quiser trocar o modelo padrao.
 - Quando iniciado, ele atende em `127.0.0.1:8080` no lugar do preset padrao.
-- O modo de thinking do template foi desativado no server com `--reasoning-budget 0` e `--reasoning-format none`, para evitar respostas interminaveis no `opencode`.
+- o preset de servico padrao do modulo usa `thinking-general` via `QWEN35_A3B_PROFILE=thinking-general`.
+- Como o `35B-A3B` nao sobe por padrao, ele continua sendo uma troca manual quando voce quiser priorizar qualidade em vez do preset rapido.
 
 Observacoes:
 

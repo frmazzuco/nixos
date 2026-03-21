@@ -57,3 +57,7 @@ Observacoes:
 - O `27B` nao deve ficar ativo junto com o `9B` ou o `35B-A3B` na mesma GPU.
 - O `IQ4_XS` foi escolhido para priorizar encaixe de VRAM e latencia melhor que `Q4_K_M`.
 - O endpoint padrao do server ficou em `127.0.0.1:8082` para nao disputar a porta `8080` do setup atual.
+
+API local:
+
+- `http://127.0.0.1:8082`
