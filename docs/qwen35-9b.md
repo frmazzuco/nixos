@@ -25,7 +25,7 @@ Preset aplicado para esta RTX 5070 Ti 16 GB:
 - `ubatch-size=512`
 - `flash-attn=on`
 - `parallel=1`
-- `cache-type-k=q4_0`
+- `cache-type-k=q8_0`
 - `cache-type-v=q4_0`
 - `threads=12`
 - `threads-batch=12`
@@ -33,14 +33,14 @@ Preset aplicado para esta RTX 5070 Ti 16 GB:
 
 Benchmark local resumido nesta RTX 5070 Ti 16 GB:
 
-- `Q4_K_M` com `q4_0/q4_0`: tende a ficar abaixo do `IQ4_XS` em throughput, mas com qualidade melhor
+- `Q4_K_M` com `q8_0/q4_0`: cerca de `105 tok/s` em `tg128`
 - `IQ4_XS` com `q8_0/q4_0`: cerca de `118 tok/s` em `tg128`
 - `IQ4_XS` com `q4_0/q4_0`: cerca de `124 tok/s` em `tg128`
 
 Contexto longo:
 
 - `QWEN35_9B_CTX=131072` para `128k`
-- Para `128k`, o default atual do servico e `QWEN35_9B_CACHE_K=q4_0` com `QWEN35_9B_CACHE_V=q4_0`
+- Para `128k`, o default atual do servico e `QWEN35_9B_CACHE_K=q8_0` com `QWEN35_9B_CACHE_V=q4_0`
 - Validado localmente em `127.0.0.1:8080` com uso de GPU na casa de `6.4 GiB` em idle apos carga
 
 Perfis:
@@ -76,5 +76,5 @@ Observacoes:
 - O servico do `9B` sobe por padrao na sessao do usuario com `QWEN35_9B_CTX=131072`.
 - O contexto de `128k` aumenta o custo de prefill, mas foi mantido como default atual do servico para preservar a janela longa do setup local.
 - O melhor ponto de velocidade medido ate agora foi `IQ4_XS` com KV em `q4_0/q4_0`.
-- O default atual do servico foi mantido em `q4_0/q4_0` para priorizar throughput no uso real via OpenCode.
+- O default atual do servico foi movido para `q8_0/q4_0` para ganhar qualidade no KV sem sair do envelope de VRAM da RTX 5070 Ti 16 GB.
 - Se quiser abrir um endpoint paralelo em outra porta, rode o binario manualmente com `QWEN35_9B_PORT=8081 qwen35-9b-server`, mas pare o `35B-A3B` antes.

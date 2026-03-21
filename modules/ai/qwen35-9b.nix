@@ -112,7 +112,7 @@ let
       --threads-batch "''${QWEN35_9B_THREADS_BATCH:-12}" \
       --flash-attn on \
       --parallel "''${QWEN35_9B_PARALLEL:-1}" \
-      --cache-type-k "''${QWEN35_9B_CACHE_K:-q4_0}" \
+      --cache-type-k "''${QWEN35_9B_CACHE_K:-q8_0}" \
       --cache-type-v "''${QWEN35_9B_CACHE_V:-q4_0}" \
       "$@"
   '';
@@ -199,7 +199,7 @@ let
       --threads-batch "''${QWEN35_9B_THREADS_BATCH:-12}" \
       --flash-attn on \
       --parallel "''${QWEN35_9B_PARALLEL:-1}" \
-      --cache-type-k "''${QWEN35_9B_CACHE_K:-q4_0}" \
+      --cache-type-k "''${QWEN35_9B_CACHE_K:-q8_0}" \
       --cache-type-v "''${QWEN35_9B_CACHE_V:-q4_0}" \
       "$@"
   '';
@@ -224,7 +224,7 @@ in
       Environment = [
         "QWEN35_9B_PROFILE=instruct-fast"
         "QWEN35_9B_CTX=131072"
-        "QWEN35_9B_CACHE_K=q4_0"
+        "QWEN35_9B_CACHE_K=q8_0"
         "QWEN35_9B_CACHE_V=q4_0"
       ];
       ExecStart = "${qwen35_9BServer}/bin/qwen35-9b-server";
