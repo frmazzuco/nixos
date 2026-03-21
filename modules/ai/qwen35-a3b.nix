@@ -225,7 +225,6 @@ in
       "qwen35-9b-server.service"
       "qwen35-27b-server.service"
     ];
-    wantedBy = [ "default.target" ];
     serviceConfig = {
       Environment = [ "QWEN35_A3B_PROFILE=thinking-general" ];
       ExecStart = "${qwen35A3BServer}/bin/qwen35-a3b-server";

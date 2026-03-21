@@ -13,9 +13,10 @@ Comandos:
 - `qwen35-9b-download`
 - `qwen35-9b-chat`
 - `qwen35-9b-server`
+- `systemctl --user status qwen35-9b-server`
+- `systemctl --user restart qwen35-9b-server`
 - `systemctl --user start qwen35-9b-server`
 - `systemctl --user stop qwen35-9b-server`
-- `systemctl --user status qwen35-9b-server`
 
 Preset aplicado para esta RTX 5070 Ti 16 GB:
 
@@ -40,7 +41,7 @@ Contexto longo:
 
 - `QWEN35_9B_CTX=131072` para `128k`
 - Para `128k`, manter `QWEN35_9B_CACHE_K=q4_0` e `QWEN35_9B_CACHE_V=q4_0`
-- Validado localmente em `127.0.0.1:8081` com uso de GPU na casa de `6.4 GiB` em idle apos carga
+- Validado localmente em `127.0.0.1:8080` com uso de GPU na casa de `6.4 GiB` em idle apos carga
 
 Perfis:
 
@@ -71,6 +72,7 @@ API local:
 Observacoes:
 
 - O `35B-A3B` e o `9B` podem coexistir instalados, mas nao devem ficar ativos juntos na GPU. Os servicos tem `Conflicts=` para garantir isso.
+- O `qwen35-9b-server` e o preset padrao da sessao do usuario e ocupa o endpoint esperado pelo `opencode`.
 - O `9B` foi deixado com contexto menor por padrao para reduzir custo de prefill e manter a resposta mais rapida.
 - O melhor ponto de velocidade medido ate agora foi `IQ4_XS` com KV em `q4_0/q4_0`.
 - Se quiser abrir um endpoint paralelo em outra porta, rode o binario manualmente com `QWEN35_9B_PORT=8081 qwen35-9b-server`, mas pare o `35B-A3B` antes.

@@ -11,8 +11,8 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - Overlay pratico com `nixpkgs-unstable` para componentes mais volateis.
 - Build custom do `llama.cpp` com CUDA arch `120`.
 - Wrappers do Qwen 3.5 35B A3B para chat, server e download.
-- Wrappers do Qwen 3.5 9B para chat, server e download, com preset separado para baixa latencia.
-- Servico `systemd --user` para manter o server do Qwen disponivel para o OpenCode.
+- Wrappers do Qwen 3.5 9B para chat, server e download, com preset padrao para baixa latencia.
+- Servico `systemd --user` para manter o `qwen35-9b-server` disponivel para o OpenCode.
 - Thinking desativado no server local do Qwen para evitar loops longos no OpenCode.
 - Compatibilidade local para `bubblewrap` e plugins do shell.
 - Modulos separados por area, sem enfiar tudo em um `configuration.nix` gigante.
@@ -38,8 +38,8 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - `modules/common/base.nix`: locale, boot, usuario, Docker, fontes e base do sistema.
 - `modules/common/desktop.nix`: X11, GNOME, Hyprland, NVIDIA/AMD, XRDP, PipeWire e Tailscale.
 - `modules/common/packages.nix`: pacotes globais e ferramentas do dia a dia.
-- `modules/ai/qwen35-a3b.nix`: `llama.cpp` com CUDA, wrappers `qwen35-a3b-*` e servico local para o OpenCode.
-- `modules/ai/qwen35-9b.nix`: wrappers `qwen35-9b-*` para um preset paralelo do Qwen focado em velocidade.
+- `modules/ai/qwen35-a3b.nix`: `llama.cpp` com CUDA e wrappers `qwen35-a3b-*` para uso manual.
+- `modules/ai/qwen35-9b.nix`: wrappers `qwen35-9b-*` e servico local padrao para o OpenCode.
 - `modules/compat/user-dotfiles.nix`: compatibilidade entre sistema e ambiente de usuario.
 
 ## Uso rapido
@@ -75,16 +75,20 @@ sudo nixos-rebuild switch --flake ~/repos/nixos#nixos
 Gerenciar o server do Qwen no usuario:
 
 ```bash
+systemctl --user status qwen35-9b-server
+systemctl --user restart qwen35-9b-server
+systemctl --user stop qwen35-9b-server
 systemctl --user status qwen35-a3b-server
 systemctl --user restart qwen35-a3b-server
-systemctl --user start qwen35-9b-server
-systemctl --user stop qwen35-9b-server
+systemctl --user start qwen35-a3b-server
+systemctl --user stop qwen35-a3b-server
 systemctl --user start qwen35-27b-server
 systemctl --user stop qwen35-27b-server
-journalctl --user -u qwen35-a3b-server -f
+journalctl --user -u qwen35-9b-server -f
 ```
 
 Os tres presets podem coexistir no host, mas nao devem ficar ativos ao mesmo tempo na GPU. Os servicos `qwen35-a3b-server`, `qwen35-9b-server` e `qwen35-27b-server` foram declarados com `Conflicts=` para evitar disputa de VRAM.
+O preset que sobe por padrao na sessao do usuario agora e o `qwen35-9b-server`, atendendo em `127.0.0.1:8080`.
 
 ## Dependencias locais
 

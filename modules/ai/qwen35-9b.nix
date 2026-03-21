@@ -219,6 +219,7 @@ in
       "qwen35-a3b-server.service"
       "qwen35-27b-server.service"
     ];
+    wantedBy = [ "default.target" ];
     serviceConfig = {
       Environment = [
         "QWEN35_9B_PROFILE=instruct-fast"
