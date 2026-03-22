@@ -72,9 +72,9 @@ API local:
 Observacoes:
 
 - O `35B-A3B` e o `9B` podem coexistir instalados, mas nao devem ficar ativos juntos na GPU. Os servicos tem `Conflicts=` para garantir isso.
-- O `qwen35-9b-server` e o preset padrao da sessao do usuario e ocupa o endpoint esperado pelo `opencode`.
+- O `qwen35-9b-server` e o preset padrao exposto em `127.0.0.1:8080` para o `opencode`.
 - O preset de servico padrao do modulo usa `QWEN35_9B_PROFILE=thinking-general`.
-- O servico do `9B` sobe por padrao na sessao do usuario com `QWEN35_9B_CTX=131072`.
+- O servico do `9B` sobe por padrao na sessao do usuario e, neste host, fica disponivel desde o boot via `systemd --user` com `linger` habilitado para `fmazzuco`.
 - O contexto de `128k` aumenta o custo de prefill, mas foi mantido como default atual do servico para preservar a janela longa do setup local.
 - O melhor ponto de velocidade medido ate agora foi `IQ4_XS` com KV em `q4_0/q4_0`.
 - O perfil atual foi movido para `Q4_K_M` com KV em `q4_0/q4_0` para testar um ponto com mais qualidade sem manter o custo do `q8_0` no KV.

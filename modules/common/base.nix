@@ -47,6 +47,7 @@ in
   users.users.fmazzuco = {
     isNormalUser = true;
     description = "Francisco Mazzuco Filho";
+    linger = true;
     shell = pkgs.zsh;
     extraGroups = [
       "i2c"

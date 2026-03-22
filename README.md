@@ -97,7 +97,7 @@ journalctl --user -u qwen35-9b-server -f
 ```
 
 Os tres presets podem coexistir no host, mas nao devem ficar ativos ao mesmo tempo na GPU. Os servicos `qwen35-a3b-server`, `qwen35-9b-server` e `qwen35-27b-server` foram declarados com `Conflicts=` para evitar disputa de VRAM.
-O preset que sobe por padrao na sessao do usuario agora e o `qwen35-9b-server`, atendendo em `127.0.0.1:8080`.
+O preset que sobe por padrao desde o boot do host e o `qwen35-9b-server`, atendendo em `127.0.0.1:8080` via `systemd --user` com `linger` habilitado para `fmazzuco`.
 
 ## Dependencias locais
 
