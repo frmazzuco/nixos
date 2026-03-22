@@ -1,0 +1,4 @@
+{ ... }:
+{
+  imports = [ ./user-dotfiles.nix ];
+}

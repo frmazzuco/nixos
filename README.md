@@ -18,6 +18,8 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - Harness local sem privilegios para validar flake, defaults e sincronismo basico entre codigo e docs.
 - Compatibilidade local para `bubblewrap` e plugins do shell.
 - Modulos separados por area, sem enfiar tudo em um `configuration.nix` gigante.
+- Contexto do host centralizado em `modules/common/host-context.nix`, evitando espalhar usuario e caminhos-base em varios modulos.
+- O host importa entrypoints por area (`modules/common`, `modules/ai`, `modules/compat`, `modules/services`) em vez de listar arquivos soltos.
 
 ## Layout
 
@@ -37,14 +39,21 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 ## Modulos
 
 - `hosts/nixos/`: ponto de entrada do host atual.
+- `modules/common/default.nix`: entrypoint da camada base do host.
 - `modules/common/base.nix`: locale, boot, usuario, Docker, fontes e base do sistema.
+- `modules/common/host-context.nix`: usuario principal e caminhos-base compartilhados pelos modulos do host.
 - `modules/common/desktop.nix`: X11, greetd/tuigreet, Hyprland, NVIDIA/AMD, XRDP, PipeWire e Tailscale.
 - `modules/common/packages.nix`: pacotes globais e ferramentas do dia a dia.
 - `modules/common/quickshell-core.nix`: runtime do Quickshell e dependencias da barra/widgets.
+- `modules/ai/default.nix`: entrypoint dos presets e wrappers locais de IA.
 - `modules/ai/common.nix`: helper compartilhado para `llama.cpp`, downloads e serviços locais de IA.
 - `modules/ai/qwen35-a3b.nix`: `llama.cpp` com CUDA e wrappers `qwen35-a3b-*` para uso manual.
 - `modules/ai/qwen35-9b.nix`: wrappers `qwen35-9b-*` e servico local padrao para o OpenCode.
+- `modules/compat/default.nix`: entrypoint da camada de compatibilidade com o ambiente do usuario.
 - `modules/compat/user-dotfiles.nix`: compatibilidade entre sistema e ambiente de usuario.
+- `modules/services/default.nix`: entrypoint dos servicos locais da workstation.
+- `modules/services/ambient-assistant.nix`: servico `systemd --user` do backend local usado pelo widget de IA.
+- `modules/services/openrgb-kingston.nix`: ajuste de RGB da memoria no boot.
 
 ## Uso rapido
 
@@ -101,6 +110,7 @@ journalctl --user -u qwen35-9b-server -f
 Os tres presets podem coexistir no host, mas nao devem ficar ativos ao mesmo tempo na GPU. Os servicos `qwen35-a3b-server`, `qwen35-9b-server` e `qwen35-27b-server` foram declarados com `Conflicts=` para evitar disputa de VRAM.
 O preset que sobe por padrao desde o boot do host e o `qwen35-9b-server`, atendendo em `127.0.0.1:8080` via `systemd --user` com `linger` habilitado para `fmazzuco`.
 O `ambient-assistant` tambem sobe por `default.target`, com `Wants=`/`After=`/`PartOf=` do `qwen35-9b-server`, para o widget voltar automaticamente apos reboot e acompanhar reinicios do backend local.
+Os servicos especificos de cada preset continuam em `modules/ai/*.nix`; servicos locais transversais, como `ambient-assistant` e `openrgb`, ficam agregados em `modules/services/`.
 
 ## Dependencias locais
 

@@ -1,9 +1,16 @@
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  config,
+  ...
+}:
 let
   unstablePackages = import inputs.nixpkgs-unstable {
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
   };
+
+  userName = config.workstation.userName;
 in
 {
   boot.loader.systemd-boot.enable = true;
@@ -44,9 +51,9 @@ in
   console.keyMap = "br-abnt2";
   hardware.i2c.enable = true;
 
-  users.users.fmazzuco = {
+  users.users.${userName} = {
     isNormalUser = true;
-    description = "Francisco Mazzuco Filho";
+    description = config.workstation.fullName;
     linger = true;
     shell = pkgs.zsh;
     extraGroups = [

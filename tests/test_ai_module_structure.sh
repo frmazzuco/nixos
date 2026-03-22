@@ -28,7 +28,7 @@ require_fixed 'mkUserService' "$common_file"
 require_fixed 'llamaCppCuda' "$common_file"
 
 for module in "$repo_root"/modules/ai/qwen*.nix; do
-    require_fixed 'ai = import ./common.nix { inherit pkgs inputs; };' "$module"
+    require_fixed 'ai = import ./common.nix { inherit pkgs inputs config; };' "$module"
     reject_fixed 'unstablePackages = import inputs.nixpkgs-unstable' "$module"
     reject_fixed 'llamaCppCuda =' "$module"
     reject_fixed 'pkgs.python313Packages.huggingface-hub' "$module"

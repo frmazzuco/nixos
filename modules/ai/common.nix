@@ -1,4 +1,8 @@
-{ pkgs, inputs }:
+{
+  pkgs,
+  inputs,
+  config,
+}:
 let
   lib = pkgs.lib;
 
@@ -20,7 +24,7 @@ let
       });
 
   huggingfaceHub = pkgs.python313Packages.huggingface-hub;
-  userHome = "/home/fmazzuco";
+  userHome = config.workstation.userHome;
 in
 {
   inherit huggingfaceHub llamaCppCuda userHome;

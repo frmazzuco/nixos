@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
+let
+  assistantRepo = "${config.workstation.repoRoot}/ambient-assistant";
+in
 {
   systemd.user.services.ambient-assistant = {
     description = "Ambient Assistant — local context-aware AI service";
@@ -15,12 +18,12 @@
         "AMBIENT_ASSISTANT_PROFILE=thinking-general"
       ];
       ExecStart = "${pkgs.python313}/bin/python3 -m ambient_assistant serve";
-      WorkingDirectory = "/home/fmazzuco/repos/ambient-assistant";
+      WorkingDirectory = assistantRepo;
       Restart = "on-failure";
       RestartSec = 3;
     };
     environment = {
-      PYTHONPATH = "/home/fmazzuco/repos/ambient-assistant/src";
+      PYTHONPATH = "${assistantRepo}/src";
     };
   };
 }

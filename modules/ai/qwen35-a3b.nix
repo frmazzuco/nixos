@@ -1,6 +1,11 @@
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  config,
+  ...
+}:
 let
-  ai = import ./common.nix { inherit pkgs inputs; };
+  ai = import ./common.nix { inherit pkgs inputs config; };
 
   qwen35A3BModelDir = "${ai.modelsRoot}/Qwen3.5-35B-A3B-GGUF";
   qwen35A3BModelFile = "${qwen35A3BModelDir}/Qwen_Qwen3.5-35B-A3B-IQ4_XS.gguf";
