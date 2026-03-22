@@ -26,11 +26,13 @@ assert_not_contains() {
 
 assert_contains docs/qwen35-9b.md '`ctx-size=131072`'
 assert_contains docs/qwen35-9b.md '`QWEN35_9B_CTX=131072`'
+assert_contains docs/qwen35-9b.md '`QWEN35_9B_PROFILE=thinking-general`'
 assert_contains docs/qwen35-9b.md '`cache-type-k=q4_0`'
 assert_contains docs/qwen35-9b.md '`cache-type-v=q4_0`'
 assert_contains docs/qwen35-9b.md '`QWEN35_9B_CACHE_K=q4_0`'
 assert_contains docs/qwen35-9b.md '`QWEN35_9B_CACHE_V=q4_0`'
 assert_contains docs/qwen35-9b.md 'sobe por padrao na sessao do usuario'
+assert_contains docs/qwen35-9b.md 'o preset padrao do modulo e do servico'
 assert_contains docs/qwen35-9b.md '`http://127.0.0.1:8080`'
 assert_not_contains docs/qwen35-9b.md '`ctx-size=8192`'
 

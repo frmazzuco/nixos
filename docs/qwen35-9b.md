@@ -1,6 +1,6 @@
 # Qwen 3.5 9B via llama.cpp
 
-Preset local focado em velocidade nesta RTX 5070 Ti 16 GB.
+Preset local com `thinking-general` por padrao nesta RTX 5070 Ti 16 GB.
 
 Modelo padrao:
 
@@ -29,7 +29,7 @@ Preset aplicado para esta RTX 5070 Ti 16 GB:
 - `cache-type-v=q4_0`
 - `threads=12`
 - `threads-batch=12`
-- `profile=instruct-fast`
+- `profile=thinking-general`
 
 Benchmark local resumido nesta RTX 5070 Ti 16 GB:
 
@@ -47,7 +47,7 @@ Perfis:
 
 - `speed` ou `instruct-fast`: raciocinio desativado, latencia minima.
 - `instruct`: sem raciocinio, um pouco mais solto na amostragem.
-- `thinking-general`: habilita raciocinio.
+- `thinking-general`: habilita raciocinio e agora e o preset padrao do modulo e do servico.
 - `thinking-coding`: habilita raciocinio com sampling mais fechado.
 
 Overrides uteis:
@@ -73,6 +73,7 @@ Observacoes:
 
 - O `35B-A3B` e o `9B` podem coexistir instalados, mas nao devem ficar ativos juntos na GPU. Os servicos tem `Conflicts=` para garantir isso.
 - O `qwen35-9b-server` e o preset padrao da sessao do usuario e ocupa o endpoint esperado pelo `opencode`.
+- O preset de servico padrao do modulo usa `QWEN35_9B_PROFILE=thinking-general`.
 - O servico do `9B` sobe por padrao na sessao do usuario com `QWEN35_9B_CTX=131072`.
 - O contexto de `128k` aumenta o custo de prefill, mas foi mantido como default atual do servico para preservar a janela longa do setup local.
 - O melhor ponto de velocidade medido ate agora foi `IQ4_XS` com KV em `q4_0/q4_0`.

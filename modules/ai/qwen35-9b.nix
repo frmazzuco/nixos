@@ -43,7 +43,7 @@ let
 
     export CUDA_VISIBLE_DEVICES="''${CUDA_VISIBLE_DEVICES:-0}"
 
-    PROFILE="''${QWEN35_9B_PROFILE:-instruct-fast}"
+    PROFILE="''${QWEN35_9B_PROFILE:-thinking-general}"
     case "$PROFILE" in
       speed|instruct-fast)
         DEFAULT_REASONING_FORMAT="none"
@@ -129,7 +129,7 @@ let
 
     export CUDA_VISIBLE_DEVICES="''${CUDA_VISIBLE_DEVICES:-0}"
 
-    PROFILE="''${QWEN35_9B_PROFILE:-instruct-fast}"
+    PROFILE="''${QWEN35_9B_PROFILE:-thinking-general}"
     case "$PROFILE" in
       speed|instruct-fast)
         DEFAULT_REASONING_FORMAT="none"
@@ -222,7 +222,7 @@ in
     wantedBy = [ "default.target" ];
     serviceConfig = {
       Environment = [
-        "QWEN35_9B_PROFILE=instruct-fast"
+        "QWEN35_9B_PROFILE=thinking-general"
         "QWEN35_9B_CTX=131072"
         "QWEN35_9B_CACHE_K=q4_0"
         "QWEN35_9B_CACHE_V=q4_0"
