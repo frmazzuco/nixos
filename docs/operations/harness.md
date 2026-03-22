@@ -13,7 +13,8 @@ O harness atual roda apenas checks deterministicos e sem privilegios.
 | Regra | Mecanismo | Comando | Evidencia |
 | --- | --- | --- | --- |
 | O flake precisa avaliar e expor o host `nixos` | check nativo do Nix | `./bin/check` | exit `0` |
-| So um servico de IA sobe por padrao na sessao do usuario | script shell pequeno | `tests/test_ai_default_service.sh` | exactly one `wantedBy = [ "default.target" ];` em `modules/ai/*.nix` |
+| Presets de IA devem compartilhar a base estrutural comum | script shell pequeno | `tests/test_ai_module_structure.sh` | os presets importam `modules/ai/common.nix` e nao recompõem `llama.cpp` localmente |
+| So um servico de IA sobe por padrao na sessao do usuario | script shell pequeno | `tests/test_ai_default_service.sh` | exactly one `wantedBy = [ "default.target" ];` entre os presets `modules/ai/qwen*.nix` |
 | Docs dos presets precisam refletir defaults reais do codigo | script shell pequeno | `tests/test_ai_docs_sync.sh` | strings criticas de perfil, contexto, endpoint e autostart sincronizadas |
 
 ## Ordem de uso
@@ -25,5 +26,4 @@ O harness atual roda apenas checks deterministicos e sem privilegios.
 ## Backlog curto
 
 - Promover `./bin/harness` para CI quando houver pipeline no repo.
-- Reduzir duplicacao entre `modules/ai/*.nix` para diminuir drift entre presets.
 - Se o contrato dos presets crescer, trocar comparacoes textuais por extracao estruturada dos defaults.

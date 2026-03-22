@@ -1,35 +1,16 @@
 { pkgs, inputs, ... }:
 let
-  unstablePackages = import inputs.nixpkgs-unstable {
-    system = pkgs.stdenv.hostPlatform.system;
-    config.allowUnfree = true;
-  };
+  ai = import ./common.nix { inherit pkgs inputs; };
 
-  llamaCppCuda =
-    (unstablePackages.llama-cpp.override {
-      cudaSupport = true;
-    }).overrideAttrs
-      (old: {
-        cmakeFlags =
-          builtins.filter (flag: (builtins.match ".*CMAKE_CUDA_ARCHITECTURES.*" flag) == null) (
-            old.cmakeFlags or [ ]
-          )
-          ++ [ "-DCMAKE_CUDA_ARCHITECTURES=120" ];
-      });
-
-  qwen35A3BModelDir = "/home/fmazzuco/models/qwen/Qwen3.5-35B-A3B-GGUF";
+  qwen35A3BModelDir = "${ai.modelsRoot}/Qwen3.5-35B-A3B-GGUF";
   qwen35A3BModelFile = "${qwen35A3BModelDir}/Qwen_Qwen3.5-35B-A3B-IQ4_XS.gguf";
 
-  qwen35A3BDownload = pkgs.writeShellScriptBin "qwen35-a3b-download" ''
-    set -euo pipefail
-
-    mkdir -p "${qwen35A3BModelDir}"
-
-    exec ${pkgs.python313Packages.huggingface-hub}/bin/hf download \
-      bartowski/Qwen_Qwen3.5-35B-A3B-GGUF \
-      Qwen_Qwen3.5-35B-A3B-IQ4_XS.gguf \
-      --local-dir "${qwen35A3BModelDir}"
-  '';
+  qwen35A3BDownload = ai.mkDownloadScript {
+    name = "qwen35-a3b-download";
+    modelDir = qwen35A3BModelDir;
+    repo = "bartowski/Qwen_Qwen3.5-35B-A3B-GGUF";
+    file = "Qwen_Qwen3.5-35B-A3B-IQ4_XS.gguf";
+  };
 
   qwen35A3BChat = pkgs.writeShellScriptBin "qwen35-a3b-chat" ''
     set -euo pipefail
@@ -92,7 +73,7 @@ let
         ;;
     esac
 
-    exec ${llamaCppCuda}/bin/llama-cli \
+    exec ${ai.llamaCppCuda}/bin/llama-cli \
       --model "$MODEL_FILE" \
       --conversation \
       --jinja \
@@ -181,7 +162,7 @@ let
         ;;
     esac
 
-    exec ${llamaCppCuda}/bin/llama-server \
+    exec ${ai.llamaCppCuda}/bin/llama-server \
       --model "$MODEL_FILE" \
       --host "''${QWEN35_A3B_HOST:-127.0.0.1}" \
       --port "''${QWEN35_A3B_PORT:-8080}" \
@@ -212,25 +193,20 @@ let
 in
 {
   environment.systemPackages = [
-    llamaCppCuda
-    pkgs.python313Packages.huggingface-hub
+    ai.llamaCppCuda
+    ai.huggingfaceHub
     qwen35A3BDownload
     qwen35A3BChat
     qwen35A3BServer
   ];
 
-  systemd.user.services.qwen35-a3b-server = {
+  systemd.user.services.qwen35-a3b-server = ai.mkUserService {
     description = "Qwen 3.5 35B A3B local OpenAI-compatible server";
     conflicts = [
       "qwen35-9b-server.service"
       "qwen35-27b-server.service"
     ];
-    serviceConfig = {
-      Environment = [ "QWEN35_A3B_PROFILE=thinking-general" ];
-      ExecStart = "${qwen35A3BServer}/bin/qwen35-a3b-server";
-      Restart = "on-failure";
-      RestartSec = 5;
-      WorkingDirectory = "/home/fmazzuco";
-    };
+    environment = [ "QWEN35_A3B_PROFILE=thinking-general" ];
+    execStart = "${qwen35A3BServer}/bin/qwen35-a3b-server";
   };
 }

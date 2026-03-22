@@ -9,6 +9,7 @@ Mapa curto do host `nixos` e dos limites deste repositorio.
 
 ## Modulos
 
+- `modules/ai/common.nix`: base compartilhada para `llama.cpp`, downloads de modelos e serviços locais
 - `modules/common/base.nix`: boot, locale, usuario, Docker, fontes, shell e base do sistema
 - `modules/common/desktop.nix`: X11, greetd/tuigreet, Hyprland, GPU hibrida, XRDP, audio, Tailscale e portals
 - `modules/common/packages.nix`: ferramentas globais e pacotes do dia a dia
@@ -23,4 +24,5 @@ Mapa curto do host `nixos` e dos limites deste repositorio.
 
 - Este repo define comportamento de sistema e servicos locais da maquina.
 - O repo de dotfiles continua responsavel por shell, Neovim, OpenCode e configuracao de usuario.
+- Os presets de IA compartilham uma base comum em `modules/ai/common.nix`; diferenças de perfil continuam locais a cada preset.
 - Modelos GGUF, credenciais, caches e outros artefatos locais continuam fora do versionamento.

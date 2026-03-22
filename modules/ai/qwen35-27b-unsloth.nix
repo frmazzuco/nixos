@@ -1,35 +1,16 @@
 { pkgs, inputs, ... }:
 let
-  unstablePackages = import inputs.nixpkgs-unstable {
-    system = pkgs.stdenv.hostPlatform.system;
-    config.allowUnfree = true;
-  };
+  ai = import ./common.nix { inherit pkgs inputs; };
 
-  llamaCppCuda =
-    (unstablePackages.llama-cpp.override {
-      cudaSupport = true;
-    }).overrideAttrs
-      (old: {
-        cmakeFlags =
-          builtins.filter (flag: (builtins.match ".*CMAKE_CUDA_ARCHITECTURES.*" flag) == null) (
-            old.cmakeFlags or [ ]
-          )
-          ++ [ "-DCMAKE_CUDA_ARCHITECTURES=120" ];
-      });
-
-  qwen35_27BModelDir = "/home/fmazzuco/models/qwen/Qwen3.5-27B-GGUF";
+  qwen35_27BModelDir = "${ai.modelsRoot}/Qwen3.5-27B-GGUF";
   qwen35_27BModelFile = "${qwen35_27BModelDir}/Qwen3.5-27B-IQ4_XS.gguf";
 
-  qwen35_27BDownload = pkgs.writeShellScriptBin "qwen35-27b-download" ''
-    set -euo pipefail
-
-    mkdir -p "${qwen35_27BModelDir}"
-
-    exec ${pkgs.python313Packages.huggingface-hub}/bin/hf download \
-      unsloth/Qwen3.5-27B-GGUF \
-      Qwen3.5-27B-IQ4_XS.gguf \
-      --local-dir "${qwen35_27BModelDir}"
-  '';
+  qwen35_27BDownload = ai.mkDownloadScript {
+    name = "qwen35-27b-download";
+    modelDir = qwen35_27BModelDir;
+    repo = "unsloth/Qwen3.5-27B-GGUF";
+    file = "Qwen3.5-27B-IQ4_XS.gguf";
+  };
 
   qwen35_27BChat = pkgs.writeShellScriptBin "qwen35-27b-chat" ''
     set -euo pipefail
@@ -92,7 +73,7 @@ let
         ;;
     esac
 
-    exec ${llamaCppCuda}/bin/llama-cli \
+    exec ${ai.llamaCppCuda}/bin/llama-cli \
       --model "$MODEL_FILE" \
       --conversation \
       --jinja \
@@ -181,7 +162,7 @@ let
         ;;
     esac
 
-    exec ${llamaCppCuda}/bin/llama-server \
+    exec ${ai.llamaCppCuda}/bin/llama-server \
       --model "$MODEL_FILE" \
       --host "''${QWEN35_27B_HOST:-127.0.0.1}" \
       --port "''${QWEN35_27B_PORT:-8082}" \
@@ -212,25 +193,20 @@ let
 in
 {
   environment.systemPackages = [
-    llamaCppCuda
-    pkgs.python313Packages.huggingface-hub
+    ai.llamaCppCuda
+    ai.huggingfaceHub
     qwen35_27BDownload
     qwen35_27BChat
     qwen35_27BServer
   ];
 
-  systemd.user.services.qwen35-27b-server = {
+  systemd.user.services.qwen35-27b-server = ai.mkUserService {
     description = "Qwen 3.5 27B Unsloth local OpenAI-compatible server";
     conflicts = [
       "qwen35-9b-server.service"
       "qwen35-a3b-server.service"
     ];
-    serviceConfig = {
-      Environment = [ "QWEN35_27B_PROFILE=instruct-fast" ];
-      ExecStart = "${qwen35_27BServer}/bin/qwen35-27b-server";
-      Restart = "on-failure";
-      RestartSec = 5;
-      WorkingDirectory = "/home/fmazzuco";
-    };
+    environment = [ "QWEN35_27B_PROFILE=instruct-fast" ];
+    execStart = "${qwen35_27BServer}/bin/qwen35-27b-server";
   };
 }

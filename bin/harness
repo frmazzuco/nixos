@@ -4,6 +4,7 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 "$repo_root/bin/check"
-"$repo_root/tests/test_ai_default_service.sh"
-"$repo_root/tests/test_ai_docs_sync.sh"
-"$repo_root/tests/test_quickshell_ui_contract.sh"
+bash "$repo_root/tests/test_ai_module_structure.sh"
+bash "$repo_root/tests/test_ai_default_service.sh"
+bash "$repo_root/tests/test_ai_docs_sync.sh"
+bash "$repo_root/tests/test_quickshell_ui_contract.sh"
