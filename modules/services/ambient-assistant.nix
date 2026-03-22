@@ -3,7 +3,9 @@
   systemd.user.services.ambient-assistant = {
     description = "Ambient Assistant — local context-aware AI service";
     wantedBy = [ "default.target" ];
+    wants = [ "qwen35-9b-server.service" ];
     after = [ "qwen35-9b-server.service" ];
+    partOf = [ "qwen35-9b-server.service" ];
     serviceConfig = {
       Environment = [
         "AMBIENT_ASSISTANT_HOST=127.0.0.1"
