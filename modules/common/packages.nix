@@ -61,6 +61,7 @@ in
     wl-clipboard
     grim
     slurp
+    satty
     hyprlock
     hyprpolkitagent
     networkmanagerapplet
