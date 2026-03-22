@@ -38,7 +38,7 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 
 - `hosts/nixos/`: ponto de entrada do host atual.
 - `modules/common/base.nix`: locale, boot, usuario, Docker, fontes e base do sistema.
-- `modules/common/desktop.nix`: X11, GNOME, Hyprland, NVIDIA/AMD, XRDP, PipeWire e Tailscale.
+- `modules/common/desktop.nix`: X11, greetd/tuigreet, Hyprland, NVIDIA/AMD, XRDP, PipeWire e Tailscale.
 - `modules/common/packages.nix`: pacotes globais e ferramentas do dia a dia.
 - `modules/common/quickshell-core.nix`: runtime do Quickshell e dependencias da barra/widgets.
 - `modules/ai/qwen35-a3b.nix`: `llama.cpp` com CUDA e wrappers `qwen35-a3b-*` para uso manual.

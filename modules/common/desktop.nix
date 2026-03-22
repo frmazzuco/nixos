@@ -37,8 +37,11 @@ in
     enable32Bit = true;
   };
 
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
+  services.greetd = {
+    enable = true;
+    useTextGreeter = true;
+    settings.default_session.command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions";
+  };
   programs.hyprland.enable = true;
 
   hardware.nvidia = {

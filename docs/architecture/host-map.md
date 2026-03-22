@@ -10,7 +10,7 @@ Mapa curto do host `nixos` e dos limites deste repositorio.
 ## Modulos
 
 - `modules/common/base.nix`: boot, locale, usuario, Docker, fontes, shell e base do sistema
-- `modules/common/desktop.nix`: X11, GNOME, Hyprland, GPU hibrida, XRDP, audio, Tailscale e portals
+- `modules/common/desktop.nix`: X11, greetd/tuigreet, Hyprland, GPU hibrida, XRDP, audio, Tailscale e portals
 - `modules/common/packages.nix`: ferramentas globais e pacotes do dia a dia
 - `modules/common/quickshell-core.nix`: runtime e dependencias do Quickshell
 - `modules/ai/qwen35-a3b.nix`: preset 35B A3B, wrappers e servico opcional
