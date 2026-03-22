@@ -1,20 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=tests/lib.sh
+source "$script_dir/lib.sh"
+
+repo_root="$(repo_root_from "${BASH_SOURCE[0]}")"
 host_context_file="$repo_root/modules/common/host-context.nix"
-
-fail() {
-  printf 'FAIL: %s\n' "$1" >&2
-  exit 1
-}
-
-require_fixed() {
-  local needle="$1"
-  local file="$2"
-
-  rg -F -- "$needle" "$file" >/dev/null 2>&1 || fail "trecho ausente em $(basename "$file"): $needle"
-}
 
 require_fixed 'options.workstation' "$host_context_file"
 require_fixed 'userName = lib.mkOption' "$host_context_file"

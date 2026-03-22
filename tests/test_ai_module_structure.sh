@@ -1,27 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=tests/lib.sh
+source "$script_dir/lib.sh"
+
+repo_root="$(repo_root_from "${BASH_SOURCE[0]}")"
 common_file="$repo_root/modules/ai/common.nix"
-
-fail() {
-    printf 'FAIL: %s\n' "$1" >&2
-    exit 1
-}
-
-require_fixed() {
-    local needle="$1"
-    local file="$2"
-    rg -F -- "$needle" "$file" >/dev/null 2>&1 || fail "trecho ausente em $(basename "$file"): $needle"
-}
-
-reject_fixed() {
-    local needle="$1"
-    local file="$2"
-    if rg -F -- "$needle" "$file" >/dev/null 2>&1; then
-        fail "trecho redundante em $(basename "$file"): $needle"
-    fi
-}
 
 require_fixed 'mkDownloadScript' "$common_file"
 require_fixed 'mkUserService' "$common_file"

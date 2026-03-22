@@ -1,27 +1,25 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=tests/lib.sh
+source "$script_dir/lib.sh"
+
+repo_root="$(repo_root_from "${BASH_SOURCE[0]}")"
 cd "$repo_root"
 
 assert_contains() {
   local file="$1"
   local needle="$2"
 
-  if ! rg -Fq "$needle" "$file"; then
-    printf 'Missing expected text in %s: %s\n' "$file" "$needle" >&2
-    exit 1
-  fi
+  require_fixed "$needle" "$file"
 }
 
 assert_not_contains() {
   local file="$1"
   local needle="$2"
 
-  if rg -Fq "$needle" "$file"; then
-    printf 'Unexpected stale text in %s: %s\n' "$file" "$needle" >&2
-    exit 1
-  fi
+  reject_fixed "$needle" "$file"
 }
 
 assert_contains docs/qwen35-9b.md '`ctx-size=131072`'

@@ -1,20 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=tests/lib.sh
+source "$script_dir/lib.sh"
+
+repo_root="$(repo_root_from "${BASH_SOURCE[0]}")"
 base_file="$repo_root/modules/common/base.nix"
 migration_doc="$repo_root/docs/quickshell-migration.md"
-
-fail() {
-    printf 'FAIL: %s\n' "$1" >&2
-    exit 1
-}
-
-require_fixed() {
-    local needle="$1"
-    local file="$2"
-    rg -F -- "$needle" "$file" >/dev/null 2>&1 || fail "trecho ausente em $(basename "$file"): $needle"
-}
 
 expected_widget_targets() {
     printf '%s\n' \
