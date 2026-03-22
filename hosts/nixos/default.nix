@@ -10,6 +10,7 @@
     ../../modules/ai/qwen35-9b.nix
     ../../modules/ai/qwen35-27b-unsloth.nix
     ../../modules/compat/user-dotfiles.nix
+    ../../modules/services/ambient-assistant.nix
     ../../modules/services/openrgb-kingston.nix
   ];
 
