@@ -13,5 +13,6 @@
     libnotify
     curl
     bc
+    matugen
   ];
 }
