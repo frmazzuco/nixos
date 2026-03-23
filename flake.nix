@@ -8,6 +8,11 @@
       url = "github:aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    walker = {
+      url = "github:abenz1267/walker";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    elephant.follows = "walker/elephant";
   };
 
   outputs =

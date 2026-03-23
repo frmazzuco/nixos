@@ -5,9 +5,12 @@ let
     config.allowUnfree = true;
   };
   agsPackages = inputs.ags.packages.${pkgs.stdenv.hostPlatform.system};
+  walkerPackages = inputs.walker.packages.${pkgs.stdenv.hostPlatform.system};
+  elephantPackages = inputs.elephant.packages.${pkgs.stdenv.hostPlatform.system};
 in
 {
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables.ELEPHANT_PROVIDER_DIR = "${elephantPackages.default}/lib/elephant/providers";
 
   environment.systemPackages = with pkgs; [
     bubblewrap
@@ -59,7 +62,8 @@ in
       exec ${wl-clipboard}/bin/wl-paste "$@"
     '')
     nodejs
-    rofi
+    walkerPackages.walker
+    elephantPackages.default
     agsPackages.agsFull
     wl-clipboard
     grim
