@@ -24,6 +24,7 @@ Mapa curto do host `nixos` e dos limites deste repositorio.
 - `modules/compat/user-dotfiles.nix`: compatibilidade entre sistema e ambiente de usuario
 - `modules/services/default.nix`: entrypoint dos servicos locais transversais
 - `modules/services/ambient-assistant.nix`: backend local usado pelo widget de IA
+- `modules/services/sunshine.nix`: espelhamento da sessao atual do Hyprland via Moonlight, restrito ao Tailscale
 - `modules/services/openrgb-kingston.nix`: ajuste de RGB da memoria no boot
 
 ## Limites

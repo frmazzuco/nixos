@@ -32,6 +32,7 @@ for stale_import in \
   '../../modules/ai/qwen35-27b-unsloth.nix' \
   '../../modules/compat/user-dotfiles.nix' \
   '../../modules/services/ambient-assistant.nix' \
+  '../../modules/services/sunshine.nix' \
   '../../modules/services/openrgb-kingston.nix'; do
   if rg -F -- "$stale_import" "$host_file" >/dev/null 2>&1; then
     fail "import antigo ainda presente em hosts/nixos/default.nix: $stale_import"
@@ -50,6 +51,7 @@ require_fixed './qwen35-27b-unsloth.nix' "$repo_root/modules/ai/default.nix"
 
 require_fixed './user-dotfiles.nix' "$repo_root/modules/compat/default.nix"
 require_fixed './ambient-assistant.nix' "$repo_root/modules/services/default.nix"
+require_fixed './sunshine.nix' "$repo_root/modules/services/default.nix"
 require_fixed './openrgb-kingston.nix' "$repo_root/modules/services/default.nix"
 
 printf 'Module area entrypoints OK\n'

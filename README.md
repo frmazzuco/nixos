@@ -54,6 +54,7 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - `modules/compat/user-dotfiles.nix`: compatibilidade entre sistema e ambiente de usuario.
 - `modules/services/default.nix`: entrypoint dos servicos locais da workstation.
 - `modules/services/ambient-assistant.nix`: servico `systemd --user` do backend local usado pelo widget de IA.
+- `modules/services/sunshine.nix`: espelhamento remoto da sessao atual do `Hyprland` via `Moonlight`, restrito a `tailscale0`.
 - `modules/services/openrgb-kingston.nix`: ajuste de RGB da memoria no boot.
 
 ## Uso rapido
@@ -111,7 +112,7 @@ journalctl --user -u qwen35-9b-server -f
 Os tres presets podem coexistir no host, mas nao devem ficar ativos ao mesmo tempo na GPU. Os servicos `qwen35-a3b-server`, `qwen35-9b-server` e `qwen35-27b-server` foram declarados com `Conflicts=` para evitar disputa de VRAM.
 O preset que sobe por padrao desde o boot do host e o `qwen35-9b-server`, atendendo em `127.0.0.1:8080` via `systemd --user` com `linger` habilitado para `fmazzuco`.
 O `ambient-assistant` tambem sobe por `default.target`, com `Wants=`/`After=`/`PartOf=` do `qwen35-9b-server`, para o widget voltar automaticamente apos reboot e acompanhar reinicios do backend local.
-Os servicos especificos de cada preset continuam em `modules/ai/*.nix`; servicos locais transversais, como `ambient-assistant` e `openrgb`, ficam agregados em `modules/services/`.
+Os servicos especificos de cada preset continuam em `modules/ai/*.nix`; servicos locais transversais, como `ambient-assistant`, `sunshine` e `openrgb`, ficam agregados em `modules/services/`.
 
 ## Dependencias locais
 
@@ -147,6 +148,7 @@ O runtime de notificacoes usa `ags` do sistema; a configuracao e o launcher da s
 - As regras operacionais para agentes e contribuidores estao em `AGENTS.md`.
 - O mapa curto do host esta em `docs/architecture/host-map.md`.
 - O harness de qualidade esta em `docs/operations/harness.md`.
+- O fluxo operacional de acesso remoto fica em `docs/operations/remote-desktop.md`.
 - A documentacao do preset local do Qwen esta em `docs/qwen35-a3b.md`.
 - A documentacao do preset rapido do Qwen esta em `docs/qwen35-9b.md`.
 - A documentacao do preset local do Unsloth 27B esta em `docs/qwen35-27b-unsloth.md`.
