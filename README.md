@@ -9,6 +9,7 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - Host `nixos` pronto para `nixos-rebuild --flake`.
 - Base pinada em `nixos-25.11`.
 - Overlay pratico com `nixpkgs-unstable` para componentes mais volateis.
+- Input dedicado do upstream `github:aylur/ags` para o runtime de notificacoes do desktop.
 - Build custom do `llama.cpp` com CUDA arch `120`.
 - Wrappers do Qwen 3.5 35B A3B para chat, server e download.
 - Wrappers do Qwen 3.5 9B para chat, server e download, com preset padrao para baixa latencia.
@@ -43,7 +44,7 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - `modules/common/base.nix`: locale, boot, usuario, Docker, fontes e base do sistema.
 - `modules/common/host-context.nix`: usuario principal e caminhos-base compartilhados pelos modulos do host.
 - `modules/common/desktop.nix`: X11, greetd/tuigreet, Hyprland, NVIDIA/AMD, XRDP, PipeWire e Tailscale.
-- `modules/common/packages.nix`: pacotes globais e ferramentas do dia a dia.
+- `modules/common/packages.nix`: pacotes globais, ferramentas do dia a dia, `agsFull` do upstream e `stow` para aplicar a configuracao ativa do desktop.
 - `modules/common/quickshell-core.nix`: runtime do Quickshell e dependencias da barra/widgets.
 - `modules/ai/default.nix`: entrypoint dos presets e wrappers locais de IA.
 - `modules/ai/common.nix`: helper compartilhado para `llama.cpp`, downloads e serviços locais de IA.
@@ -129,6 +130,7 @@ Separacao adotada:
 - Repo de dotfiles: configuracoes de usuario e apps, como `zsh`, `nvim` e `opencode`.
 
 Na pratica, o provider do OpenCode que aponta para o Qwen local continua no repo de dotfiles, enquanto o servidor local, os binarios e o servico `systemd --user` que o sustenta ficam aqui.
+O runtime de notificacoes usa `ags` do sistema; a configuracao e o launcher da sessao Hyprland ficam no repo de dotfiles.
 
 ## Fluxo recomendado
 

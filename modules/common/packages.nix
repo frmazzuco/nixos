@@ -4,6 +4,7 @@ let
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
   };
+  agsPackages = inputs.ags.packages.${pkgs.stdenv.hostPlatform.system};
 in
 {
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -24,6 +25,7 @@ in
     python3
     ripgrep
     fd
+    stow
     eza
     fzf
     atuin
@@ -57,7 +59,7 @@ in
     '')
     nodejs
     rofi
-    mako
+    agsPackages.agsFull
     wl-clipboard
     grim
     slurp
