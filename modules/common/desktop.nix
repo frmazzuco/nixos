@@ -28,8 +28,8 @@ in
     "nvidia"
   ];
   services.xserver.xkb = {
-    layout = "br";
-    variant = "";
+    layout = "us";
+    variant = "intl";
   };
 
   hardware.graphics = {
