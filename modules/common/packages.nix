@@ -28,6 +28,7 @@ in
     stow
     eza
     fzf
+    zoxide
     atuin
     jq
     yq-go
