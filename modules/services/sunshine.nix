@@ -42,7 +42,6 @@ in
       userServices = false;
     };
   };
-
   networking.firewall.interfaces.tailscale0 = {
     allowedTCPPorts = sunshineTcpPorts;
     allowedUDPPorts = sunshineUdpPorts;
