@@ -23,6 +23,8 @@ in
     gcc
     gnumake
     cmake
+    cudaPackages.cuda_cudart
+    cudaPackages.cuda_nvcc
     pkg-config
     just
     python3
@@ -42,6 +44,7 @@ in
     nixd
     nixfmt-rfc-style
     ghostty
+    discord
     kubectl
     xfce.xfce4-session
     xfce.xfconf
@@ -76,5 +79,6 @@ in
     playerctl
     btop
     unstablePackages.openrgb
+    phinger-cursors
   ];
 }
