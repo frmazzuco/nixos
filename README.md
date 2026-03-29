@@ -55,6 +55,7 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - `modules/compat/user-dotfiles.nix`: compatibilidade entre sistema e ambiente de usuario.
 - `modules/services/default.nix`: entrypoint dos servicos locais da workstation.
 - `modules/services/ambient-assistant.nix`: servico `systemd --user` do backend local usado pelo widget de IA.
+- `modules/services/cloudflared-media-tunnel.nix`: tunel persistente de Jellyfin e Seerr via Cloudflare, buscando o token do tunel no BWS em runtime.
 - `modules/services/orico-storage.nix`: suporte `mdadm` e montagem automatica do volume unico externo em `/mnt/orico-storage`.
 - `modules/services/sunshine.nix`: espelhamento remoto da sessao atual do `Hyprland` via `Moonlight`, restrito a `tailscale0`.
 - `modules/services/openrgb-kingston.nix`: ajuste de RGB da memoria no boot.
@@ -117,6 +118,7 @@ Os tres presets podem coexistir no host, mas nao devem ficar ativos ao mesmo tem
 O preset que sobe por padrao desde o boot do host e o `qwen35-9b-server`, atendendo em `127.0.0.1:8080` via `systemd --user` com `linger` habilitado para `fmazzuco`.
 O `ambient-assistant` tambem sobe por `default.target`, mas agora usa `openai-api` com `gpt-5.4-nano` por padrao e `AMBIENT_ASSISTANT_MAX_TOOL_ROUNDS=24`. Isso desacopla o widget do restart do backend local do Qwen e depende de `OPENAI_API_KEY` estar disponivel no ambiente do usuario.
 Para a tool local do Seerr, o servico tambem recebe `AMBIENT_ASSISTANT_SEERR_SETTINGS_FILE=%h/arr/config/jellyseerr/settings.json` e le a `main.apiKey` diretamente desse arquivo, sem depender de um wrapper extra no startup.
+O tunel persistente de Jellyfin e Seerr sobe por `systemd --user` como `cloudflared-media-tunnel`, usando `cloudflared tunnel --token` e buscando o token do Cloudflare no BWS em runtime. O bootstrap local depende do arquivo `~/.config/cloudflared/media-bws.env` com `BWS_ACCESS_TOKEN` e, opcionalmente, `CLOUDFLARE_TUNNEL_BWS_SECRET_KEY` (default `cloudflare`) ou `CLOUDFLARE_TUNNEL_BWS_SECRET_ID`.
 Os servicos especificos de cada preset continuam em `modules/ai/*.nix`; servicos locais transversais, como `ambient-assistant`, `sunshine` e `openrgb`, ficam agregados em `modules/services/`.
 O storage externo ORICO usa um volume unico `RAID0` montado em `/mnt/orico-storage` quando o gabinete estiver conectado; a montagem foi declarada com `nofail` e `x-systemd.automount` para nao atrasar o boot se ele estiver desligado.
 
@@ -127,6 +129,7 @@ Alguns itens continuam fora do repo por serem hardware-specific ou estado local:
 - `/home/fmazzuco/models/qwen/Qwen3.5-35B-A3B-GGUF`: modelos GGUF.
 - `/home/fmazzuco/models/qwen/Qwen3.5-9B-GGUF`: modelos GGUF.
 - `/home/fmazzuco/models/qwen/Qwen3.5-27B-GGUF`: modelos GGUF.
+- `/home/fmazzuco/.config/cloudflared/media-bws.env`: `BWS_ACCESS_TOKEN` local para o servico `cloudflared-media-tunnel`.
 - Segredos, tokens, caches e credenciais.
 
 ## Relacao com os dotfiles
