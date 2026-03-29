@@ -1,6 +1,9 @@
 { pkgs, config, ... }:
 let
   assistantRepo = "${config.workstation.repoRoot}/ambient-assistant";
+  assistantPython = pkgs.python313.withPackages (ps: [
+    ps.openai-agents
+  ]);
 in
 {
   systemd.user.services.ambient-assistant = {
@@ -18,7 +21,7 @@ in
         "AMBIENT_ASSISTANT_SEERR_BASE_URL=http://127.0.0.1:5055"
         "AMBIENT_ASSISTANT_SEERR_SETTINGS_FILE=%h/arr/config/jellyseerr/settings.json"
       ];
-      ExecStart = "${pkgs.python313}/bin/python3 -m ambient_assistant serve";
+      ExecStart = "${assistantPython}/bin/python3 -m ambient_assistant serve";
       WorkingDirectory = assistantRepo;
       Restart = "on-failure";
       RestartSec = 3;
