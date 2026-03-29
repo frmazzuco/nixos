@@ -116,6 +116,7 @@ journalctl --user -u qwen35-9b-server -f
 Os tres presets podem coexistir no host, mas nao devem ficar ativos ao mesmo tempo na GPU. Os servicos `qwen35-a3b-server`, `qwen35-9b-server` e `qwen35-27b-server` foram declarados com `Conflicts=` para evitar disputa de VRAM.
 O preset que sobe por padrao desde o boot do host e o `qwen35-9b-server`, atendendo em `127.0.0.1:8080` via `systemd --user` com `linger` habilitado para `fmazzuco`.
 O `ambient-assistant` tambem sobe por `default.target`, mas agora usa `openai-api` com `gpt-5.4-nano` por padrao e `AMBIENT_ASSISTANT_MAX_TOOL_ROUNDS=24`. Isso desacopla o widget do restart do backend local do Qwen e depende de `OPENAI_API_KEY` estar disponivel no ambiente do usuario.
+Para a tool local do Seerr, o servico tambem recebe `AMBIENT_ASSISTANT_SEERR_SETTINGS_FILE=%h/arr/config/jellyseerr/settings.json` e le a `main.apiKey` diretamente desse arquivo, sem depender de um wrapper extra no startup.
 Os servicos especificos de cada preset continuam em `modules/ai/*.nix`; servicos locais transversais, como `ambient-assistant`, `sunshine` e `openrgb`, ficam agregados em `modules/services/`.
 O storage externo ORICO usa um volume unico `RAID0` montado em `/mnt/orico-storage` quando o gabinete estiver conectado; a montagem foi declarada com `nofail` e `x-systemd.automount` para nao atrasar o boot se ele estiver desligado.
 
