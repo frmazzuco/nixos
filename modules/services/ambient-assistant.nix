@@ -6,6 +6,7 @@ in
   systemd.user.services.ambient-assistant = {
     description = "Ambient Assistant — local context-aware AI service";
     wantedBy = [ "default.target" ];
+    path = [ pkgs.ripgrep pkgs.curl pkgs.git ];
     serviceConfig = {
       Environment = [
         "AMBIENT_ASSISTANT_HOST=127.0.0.1"

@@ -78,6 +78,7 @@ in
     pavucontrol
     playerctl
     btop
+    bws
     unstablePackages.openrgb
     phinger-cursors
   ];

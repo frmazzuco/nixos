@@ -3,4 +3,4 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-exec sudo nixos-rebuild test --flake "path:${repo_root}#nixos" "$@"
+exec sudo nixos-rebuild test --flake "${repo_root}#nixos" "$@"

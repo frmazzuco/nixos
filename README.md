@@ -55,6 +55,7 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - `modules/compat/user-dotfiles.nix`: compatibilidade entre sistema e ambiente de usuario.
 - `modules/services/default.nix`: entrypoint dos servicos locais da workstation.
 - `modules/services/ambient-assistant.nix`: servico `systemd --user` do backend local usado pelo widget de IA.
+- `modules/services/orico-storage.nix`: suporte `mdadm` e montagem automatica do volume unico externo em `/mnt/orico-storage`.
 - `modules/services/sunshine.nix`: espelhamento remoto da sessao atual do `Hyprland` via `Moonlight`, restrito a `tailscale0`.
 - `modules/services/openrgb-kingston.nix`: ajuste de RGB da memoria no boot.
 
@@ -95,6 +96,8 @@ sudo nixos-rebuild test --flake ~/repos/nixos#nixos
 sudo nixos-rebuild switch --flake ~/repos/nixos#nixos
 ```
 
+Os wrappers `./bin/check`, `./bin/test` e `./bin/switch` usam a mesma resolucao `git+file` desses comandos diretos. Se voce criar arquivo novo no repo, faca `git add` antes do rebuild para a validacao enxergar o mesmo conjunto de arquivos.
+
 Gerenciar o server do Qwen no usuario:
 
 ```bash
@@ -114,6 +117,7 @@ Os tres presets podem coexistir no host, mas nao devem ficar ativos ao mesmo tem
 O preset que sobe por padrao desde o boot do host e o `qwen35-9b-server`, atendendo em `127.0.0.1:8080` via `systemd --user` com `linger` habilitado para `fmazzuco`.
 O `ambient-assistant` tambem sobe por `default.target`, mas agora usa `openai-api` com `gpt-5.4-nano` por padrao e `AMBIENT_ASSISTANT_MAX_TOOL_ROUNDS=24`. Isso desacopla o widget do restart do backend local do Qwen e depende de `OPENAI_API_KEY` estar disponivel no ambiente do usuario.
 Os servicos especificos de cada preset continuam em `modules/ai/*.nix`; servicos locais transversais, como `ambient-assistant`, `sunshine` e `openrgb`, ficam agregados em `modules/services/`.
+O storage externo ORICO usa um volume unico `RAID0` montado em `/mnt/orico-storage` quando o gabinete estiver conectado; a montagem foi declarada com `nofail` e `x-systemd.automount` para nao atrasar o boot se ele estiver desligado.
 
 ## Dependencias locais
 
