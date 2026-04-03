@@ -16,7 +16,7 @@ O harness atual roda apenas checks deterministicos e sem privilegios.
 | Literais do host nao devem voltar a se espalhar entre modulos | script shell pequeno | `tests/test_host_context_contract.sh` | usuario e caminhos-base ficam centralizados em `modules/common/host-context.nix` |
 | O host deve continuar importando entrypoints por area | script shell pequeno | `tests/test_module_area_entrypoints.sh` | `hosts/nixos/default.nix` importa `modules/common`, `modules/ai`, `modules/compat` e `modules/services` |
 | Presets de IA devem compartilhar a base estrutural comum | script shell pequeno | `tests/test_ai_module_structure.sh` | os presets importam `modules/ai/common.nix` e nao recompõem `llama.cpp` localmente |
-| So um servico de IA sobe por padrao na sessao do usuario | script shell pequeno | `tests/test_ai_default_service.sh` | exactly one `wantedBy = [ "default.target" ];` entre os presets `modules/ai/qwen*.nix` |
+| So um servico de IA sobe por padrao na sessao do usuario | script shell pequeno | `tests/test_ai_default_service.sh` | exactly one `wantedBy = [ "default.target" ];` entre os presets `modules/ai/*.nix` |
 | Docs dos presets precisam refletir defaults reais do codigo | script shell pequeno | `tests/test_ai_docs_sync.sh` | strings criticas de perfil, contexto, endpoint e autostart sincronizadas |
 | O runner local deve continuar descobrindo contracts automaticamente | script shell pequeno | `tests/run-all.sh` | todo `tests/test_*.sh` e executado via o mesmo entrypoint |
 

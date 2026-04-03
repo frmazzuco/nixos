@@ -16,6 +16,14 @@ let
       cudaSupport = true;
     }).overrideAttrs
       (old: {
+        version = "8641";
+        src = pkgs.fetchFromGitHub {
+          owner = "ggml-org";
+          repo = "llama.cpp";
+          rev = "b8641";
+          hash = "sha256-6P6Uu6L7CJY5makuCmmZFzDWmDfFm5MrPbizsH7d5pM=";
+        };
+        postPatch = "";
         cmakeFlags =
           builtins.filter (flag: (builtins.match ".*CMAKE_CUDA_ARCHITECTURES.*" flag) == null) (
             old.cmakeFlags or [ ]

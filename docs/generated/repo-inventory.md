@@ -26,7 +26,7 @@ Snapshot curto do repositorio para navegacao rapida.
 - `README.md`
 - `docs/architecture/host-map.md`
 - `docs/operations/harness.md`
+- `docs/gemma4-e4b.md`
+- `docs/gemma4-26b.md`
 - `docs/qwen35-9b.md`
-- `docs/qwen35-a3b.md`
-- `docs/qwen35-27b-unsloth.md`
 - `docs/quickshell-migration.md`

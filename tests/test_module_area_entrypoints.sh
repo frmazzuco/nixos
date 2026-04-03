@@ -27,9 +27,7 @@ for stale_import in \
   '../../modules/common/desktop.nix' \
   '../../modules/common/packages.nix' \
   '../../modules/common/quickshell-core.nix' \
-  '../../modules/ai/qwen35-a3b.nix' \
   '../../modules/ai/qwen35-9b.nix' \
-  '../../modules/ai/qwen35-27b-unsloth.nix' \
   '../../modules/compat/user-dotfiles.nix' \
   '../../modules/services/ambient-assistant.nix' \
   '../../modules/services/orico-storage.nix' \
@@ -46,9 +44,7 @@ require_fixed './desktop.nix' "$repo_root/modules/common/default.nix"
 require_fixed './packages.nix' "$repo_root/modules/common/default.nix"
 require_fixed './quickshell-core.nix' "$repo_root/modules/common/default.nix"
 
-require_fixed './qwen35-a3b.nix' "$repo_root/modules/ai/default.nix"
 require_fixed './qwen35-9b.nix' "$repo_root/modules/ai/default.nix"
-require_fixed './qwen35-27b-unsloth.nix' "$repo_root/modules/ai/default.nix"
 
 require_fixed './user-dotfiles.nix' "$repo_root/modules/compat/default.nix"
 require_fixed './ambient-assistant.nix' "$repo_root/modules/services/default.nix"

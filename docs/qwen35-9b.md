@@ -47,7 +47,7 @@ Perfis:
 
 - `speed` ou `instruct-fast`: raciocinio desativado, latencia minima.
 - `instruct`: sem raciocinio, um pouco mais solto na amostragem.
-- `thinking-general`: habilita raciocinio e agora e o preset padrao do modulo e do servico.
+- `thinking-general`: habilita raciocinio e continua como o preset padrao do modulo.
 - `thinking-coding`: habilita raciocinio com sampling mais fechado.
 
 Overrides uteis:
@@ -71,11 +71,11 @@ API local:
 
 Observacoes:
 
-- O `35B-A3B` e o `9B` podem coexistir instalados, mas nao devem ficar ativos juntos na GPU. Os servicos tem `Conflicts=` para garantir isso.
-- O `qwen35-9b-server` e o preset padrao exposto em `127.0.0.1:8080` para o `opencode`.
+- O `Qwen 9B` continua instalado para uso manual local, mas nao deve ficar ativo junto do `Gemma 4 E4B` na mesma GPU.
+- O `qwen35-9b-server` continua exposto em `127.0.0.1:8080` para o `opencode`.
 - O preset de servico padrao do modulo usa `QWEN35_9B_PROFILE=thinking-general`.
-- O servico do `9B` sobe por padrao na sessao do usuario e, neste host, fica disponivel desde o boot via `systemd --user` com `linger` habilitado para `fmazzuco`.
+- O `9B` agora fica como preset manual quando voce quiser priorizar o `opencode` local no lugar do `Gemma 4 E4B`.
 - O contexto de `128k` aumenta o custo de prefill, mas foi mantido como default atual do servico para preservar a janela longa do setup local.
 - O melhor ponto de velocidade medido ate agora foi `IQ4_XS` com KV em `q4_0/q4_0`.
 - O perfil atual foi movido para `Q4_K_M` com KV em `q4_0/q4_0` para testar um ponto com mais qualidade sem manter o custo do `q8_0` no KV.
-- Se quiser abrir um endpoint paralelo em outra porta, rode o binario manualmente com `QWEN35_9B_PORT=8081 qwen35-9b-server`, mas pare o `35B-A3B` antes.
+- Se quiser abrir um endpoint em outra porta, rode o binario manualmente com `QWEN35_9B_PORT=8081 qwen35-9b-server`, mas pare antes o `Gemma 4 E4B`.

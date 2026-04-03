@@ -12,10 +12,9 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - Input dedicado do upstream `github:aylur/ags` para o runtime de notificacoes do desktop.
 - Build custom do `llama.cpp` com CUDA arch `120`.
 - Toolchain CUDA basico disponivel globalmente no host via `cudaPackages.cuda_nvcc` e `cudaPackages.cuda_cudart`.
-- Wrappers do Qwen 3.5 35B A3B para chat, server e download.
-- Wrappers do Qwen 3.5 9B para chat, server e download, com preset padrao para baixa latencia.
+- Wrappers do Qwen 3.5 9B para chat, server e download, mantidos para uso manual local.
 - `claude-code` disponivel globalmente no host via `nixpkgs-unstable`.
-- Servico `systemd --user` para manter o `qwen35-9b-server` disponivel para o OpenCode.
+- Servico `systemd --user` para manter o `gemma4-e4b-server` disponivel para o `ambient-assistant`.
 - Servico `systemd --user` para manter o `ambient-assistant` disponivel para o widget local de IA.
 - Harness local sem privilegios para validar flake, defaults e sincronismo basico entre codigo e docs.
 - Compatibilidade local para `bubblewrap` e plugins do shell.
@@ -49,8 +48,9 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - `modules/common/quickshell-core.nix`: runtime do Quickshell e dependencias da barra/widgets.
 - `modules/ai/default.nix`: entrypoint dos presets e wrappers locais de IA.
 - `modules/ai/common.nix`: helper compartilhado para `llama.cpp`, downloads e serviços locais de IA.
-- `modules/ai/qwen35-a3b.nix`: `llama.cpp` com CUDA e wrappers `qwen35-a3b-*` para uso manual.
-- `modules/ai/qwen35-9b.nix`: wrappers `qwen35-9b-*` e servico local padrao para o OpenCode.
+- `modules/ai/qwen35-9b.nix`: wrappers `qwen35-9b-*` e servico local manual para o OpenCode.
+- `modules/ai/gemma4-e4b.nix`: wrappers `gemma4-e4b-*` e servico local padrao para o Gemma 4 E4B.
+- `modules/ai/gemma4-26b.nix`: wrappers `gemma4-26b-*` e servico local manual para o Gemma 4 26B.
 - `modules/compat/default.nix`: entrypoint da camada de compatibilidade com o ambiente do usuario.
 - `modules/compat/user-dotfiles.nix`: compatibilidade entre sistema e ambiente de usuario.
 - `modules/services/default.nix`: entrypoint dos servicos locais da workstation.
@@ -105,18 +105,11 @@ Gerenciar o server do Qwen no usuario:
 systemctl --user status qwen35-9b-server
 systemctl --user restart qwen35-9b-server
 systemctl --user stop qwen35-9b-server
-systemctl --user status qwen35-a3b-server
-systemctl --user restart qwen35-a3b-server
-systemctl --user start qwen35-a3b-server
-systemctl --user stop qwen35-a3b-server
-systemctl --user start qwen35-27b-server
-systemctl --user stop qwen35-27b-server
 journalctl --user -u qwen35-9b-server -f
 ```
 
-Os tres presets podem coexistir no host, mas nao devem ficar ativos ao mesmo tempo na GPU. Os servicos `qwen35-a3b-server`, `qwen35-9b-server` e `qwen35-27b-server` foram declarados com `Conflicts=` para evitar disputa de VRAM.
-O preset que sobe por padrao desde o boot do host e o `qwen35-9b-server`, atendendo em `127.0.0.1:8080` via `systemd --user` com `linger` habilitado para `fmazzuco`.
-O `ambient-assistant` tambem sobe por `default.target`, mas agora usa `openai-api` com `gpt-5.4-nano` por padrao e `AMBIENT_ASSISTANT_MAX_TOOL_ROUNDS=24`. O modulo monta um Python dedicado com `openai-agents`, mantendo o checkout do repo em `PYTHONPATH`. Isso desacopla o widget do restart do backend local do Qwen e continua dependendo de `OPENAI_API_KEY` estar disponivel no ambiente do usuario.
+O preset que sobe por padrao desde o boot do host e o `gemma4-e4b-server`, atendendo em `127.0.0.1:18083` via `systemd --user` com `linger` habilitado para `fmazzuco`.
+O `ambient-assistant` tambem sobe por `default.target`, mas agora usa `openai-compat` apontando para `http://127.0.0.1:18083/v1` com `gemma-4-e4b-it-Q8_0.gguf` e perfil `thinking-general`. O modulo monta um Python dedicado com `openai-agents`, mantendo o checkout do repo em `PYTHONPATH`.
 Para a tool local do Seerr, o servico tambem recebe `AMBIENT_ASSISTANT_SEERR_SETTINGS_FILE=%h/arr/config/jellyseerr/settings.json` e le a `main.apiKey` diretamente desse arquivo, sem depender de um wrapper extra no startup.
 O tunel persistente de Jellyfin e Seerr sobe por `systemd --user` como `cloudflared-media-tunnel`, usando `cloudflared tunnel --token` e buscando o token do Cloudflare no BWS em runtime. O bootstrap local depende do arquivo `~/.config/cloudflared/media-bws.env` com `BWS_ACCESS_TOKEN` e, opcionalmente, `CLOUDFLARE_TUNNEL_BWS_SECRET_KEY` (default `cloudflare`) ou `CLOUDFLARE_TUNNEL_BWS_SECRET_ID`.
 Os servicos especificos de cada preset continuam em `modules/ai/*.nix`; servicos locais transversais, como `ambient-assistant`, `sunshine` e `openrgb`, ficam agregados em `modules/services/`.
@@ -126,9 +119,9 @@ O storage externo ORICO usa um volume unico `RAID0` montado em `/mnt/orico-stora
 
 Alguns itens continuam fora do repo por serem hardware-specific ou estado local:
 
-- `/home/fmazzuco/models/qwen/Qwen3.5-35B-A3B-GGUF`: modelos GGUF.
 - `/home/fmazzuco/models/qwen/Qwen3.5-9B-GGUF`: modelos GGUF.
-- `/home/fmazzuco/models/qwen/Qwen3.5-27B-GGUF`: modelos GGUF.
+- `/home/fmazzuco/models/gemma4/gemma-4-E4B-it-GGUF`: modelos GGUF.
+- `/home/fmazzuco/models/gemma4/gemma-4-26B-A4B-it-GGUF`: modelos GGUF.
 - `/home/fmazzuco/.config/cloudflared/media-bws.env`: `BWS_ACCESS_TOKEN` local para o servico `cloudflared-media-tunnel`.
 - Segredos, tokens, caches e credenciais.
 
@@ -139,7 +132,7 @@ Separacao adotada:
 - Este repo: sistema operacional e comportamento da maquina.
 - Repo de dotfiles: configuracoes de usuario e apps, como `zsh`, `nvim` e `opencode`.
 
-Na pratica, o provider do OpenCode que aponta para o Qwen local continua no repo de dotfiles, enquanto o servidor local, os binarios e o servico `systemd --user` que o sustenta ficam aqui.
+Na pratica, o provider do OpenCode que aponta para o Qwen local continua no repo de dotfiles, enquanto os servidores locais, os binarios e os servicos `systemd --user` que os sustentam ficam aqui.
 O runtime de notificacoes usa `ags` do sistema; a configuracao e o launcher da sessao Hyprland ficam no repo de dotfiles.
 
 ## Fluxo recomendado
@@ -158,7 +151,7 @@ O runtime de notificacoes usa `ags` do sistema; a configuracao e o launcher da s
 - O mapa curto do host esta em `docs/architecture/host-map.md`.
 - O harness de qualidade esta em `docs/operations/harness.md`.
 - O fluxo operacional de acesso remoto fica em `docs/operations/remote-desktop.md`.
-- A documentacao do preset local do Qwen esta em `docs/qwen35-a3b.md`.
 - A documentacao do preset rapido do Qwen esta em `docs/qwen35-9b.md`.
-- A documentacao do preset local do Unsloth 27B esta em `docs/qwen35-27b-unsloth.md`.
+- A documentacao do preset local do Gemma 4 E4B esta em `docs/gemma4-e4b.md`.
+- A documentacao do preset local do Gemma 4 26B esta em `docs/gemma4-26b.md`.
 - O estado da migracao do desktop para Quickshell esta em `docs/quickshell-migration.md`.
