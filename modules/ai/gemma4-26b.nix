@@ -35,6 +35,9 @@ let
       --model "$MODEL_FILE" \
       --conversation \
       --jinja \
+      --reasoning on \
+      --reasoning-format deepseek \
+      --reasoning-budget "''${GEMMA4_26B_REASONING_BUDGET:--1}" \
       --temp "''${GEMMA4_26B_TEMP:-0.7}" \
       --top-p "''${GEMMA4_26B_TOP_P:-0.9}" \
       --top-k "''${GEMMA4_26B_TOP_K:-40}" \
@@ -69,6 +72,9 @@ let
       --host "''${GEMMA4_26B_HOST:-127.0.0.1}" \
       --port "''${GEMMA4_26B_PORT:-18083}" \
       --jinja \
+      --reasoning on \
+      --reasoning-format deepseek \
+      --reasoning-budget "''${GEMMA4_26B_REASONING_BUDGET:--1}" \
       --temp "''${GEMMA4_26B_TEMP:-0.7}" \
       --top-p "''${GEMMA4_26B_TOP_P:-0.9}" \
       --top-k "''${GEMMA4_26B_TOP_K:-40}" \

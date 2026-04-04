@@ -7,8 +7,8 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 ## O que tem aqui
 
 - Host `nixos` pronto para `nixos-rebuild --flake`.
-- Base pinada em `nixos-25.11`.
-- Overlay pratico com `nixpkgs-unstable` para componentes mais volateis.
+- Base pinada em `nixpkgs-unstable`.
+- Alias `nixpkgs-unstable` mantido para componentes que ainda referenciam esse input nominalmente.
 - Input dedicado do upstream `github:aylur/ags` para o runtime de notificacoes do desktop.
 - Build custom do `llama.cpp` com CUDA arch `120`.
 - Toolchain CUDA basico disponivel globalmente no host via `cudaPackages.cuda_nvcc` e `cudaPackages.cuda_cudart`.

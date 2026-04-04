@@ -46,16 +46,16 @@ in
     ghostty
     discord
     kubectl
-    xfce.xfce4-session
-    xfce.xfconf
-    xfce.xfce4-panel
-    xfce.xfwm4
-    xfce.xfdesktop
-    xfce.xfce4-settings
-    xfce.exo
-    xfce.garcon
-    xfce.xfce4-terminal
-    xfce.thunar
+    xfce4-session
+    xfconf
+    xfce4-panel
+    xfwm4
+    xfdesktop
+    xfce4-settings
+    xfce4-exo
+    garcon
+    xfce4-terminal
+    thunar
     unstablePackages.claude-code
     unstablePackages.opencode
     (writeShellScriptBin "pbcopy" ''
