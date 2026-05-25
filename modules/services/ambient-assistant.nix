@@ -9,8 +9,7 @@ in
   systemd.user.services.ambient-assistant = {
     description = "Ambient Assistant — local context-aware AI service";
     wantedBy = [ "default.target" ];
-    requires = [ "gemma4-e4b-server.service" ];
-    after = [ "gemma4-e4b-server.service" ];
+    after = [ "gemma4-26b-server.service" ];
     path = [ pkgs.ripgrep pkgs.curl pkgs.git ];
     serviceConfig = {
       Environment = [
@@ -18,7 +17,7 @@ in
         "AMBIENT_ASSISTANT_PORT=8765"
         "AMBIENT_ASSISTANT_PROVIDER_KIND=openai-compat"
         "AMBIENT_ASSISTANT_PROVIDER_BASE_URL=http://127.0.0.1:18083/v1"
-        "AMBIENT_ASSISTANT_MODEL=gemma-4-e4b-it-Q8_0.gguf"
+        "AMBIENT_ASSISTANT_MODEL=gemma-4-26B-A4B-it-UD-IQ4_XS.gguf"
         "AMBIENT_ASSISTANT_PROFILE=thinking-general"
         "AMBIENT_ASSISTANT_MAX_TOOL_ROUNDS=24"
         "AMBIENT_ASSISTANT_SEERR_BASE_URL=http://127.0.0.1:5055"

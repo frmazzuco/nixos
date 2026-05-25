@@ -67,6 +67,22 @@
         "type": "github"
       }
     },
+    "mt7902-temp": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1778876198,
+        "narHash": "sha256-ab3d8cwJ7OLQmzBfwNIwdkJWNi6AMiM7FR5u1/4vLXc=",
+        "owner": "OnlineLearningTutorials",
+        "repo": "mt7902_temp",
+        "rev": "d47026d2817d86a52c58ede5494db32b1548f440",
+        "type": "github"
+      },
+      "original": {
+        "owner": "OnlineLearningTutorials",
+        "repo": "mt7902_temp",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1775126147,
@@ -83,6 +99,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-lutris": {
+      "locked": {
+        "lastModified": 1778124196,
+        "narHash": "sha256-pYEytCNic/czazbV9r3tbQ6BZzqRBg/41x2dIC5ymOo=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "68a8af93ff4297686cb68880845e61e5e2e41d92",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "68a8af93ff4297686cb68880845e61e5e2e41d92",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "ags": "ags",
@@ -90,7 +122,9 @@
           "walker",
           "elephant"
         ],
+        "mt7902-temp": "mt7902-temp",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-lutris": "nixpkgs-lutris",
         "nixpkgs-unstable": [
           "nixpkgs"
         ],

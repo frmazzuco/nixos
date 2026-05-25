@@ -13,7 +13,7 @@ Estado consolidado da migracao do desktop para Quickshell, separando runtime de 
 
 - `modules/common/quickshell-core.nix` concentra o runtime do Quickshell
 - o modulo esta importado pelo host `nixos`
-- o runtime inclui `quickshell`, `qt6.qtmultimedia`, `qt6.qt5compat`, `brightnessctl`, `socat`, `cliphist`, `swww`, `ffmpeg`, `imagemagick`, `libnotify`, `curl` e `bc`
+- o runtime inclui `quickshell`, `qt6.qtmultimedia`, `qt6.qt5compat`, `brightnessctl`, `socat`, `cliphist`, `awww`, wrappers de compatibilidade `swww`/`swww-daemon`, `ffmpeg`, `imagemagick`, `libnotify`, `curl` e `bc`
 - `modules/common/base.nix` instala `JetBrainsMono Nerd Font` e `Iosevka Nerd Font`, que formam o contrato tipografico dos widgets
 
 ### Usuario

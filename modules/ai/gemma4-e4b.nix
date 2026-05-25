@@ -106,7 +106,6 @@ in
       "gemma4-26b-server.service"
       "gemma4-31b-server.service"
     ];
-    wantedBy = [ "default.target" ];
     environment = [
       "GEMMA4_E4B_CTX=131072"
       "GEMMA4_E4B_CACHE_K=f16"

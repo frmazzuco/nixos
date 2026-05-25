@@ -1,4 +1,13 @@
 { pkgs, ... }:
+let
+  swwwCompat = pkgs.writeShellScriptBin "swww" ''
+    exec ${pkgs.awww}/bin/awww "$@"
+  '';
+
+  swwwDaemonCompat = pkgs.writeShellScriptBin "swww-daemon" ''
+    exec ${pkgs.awww}/bin/awww-daemon "$@"
+  '';
+in
 {
   environment.systemPackages = with pkgs; [
     quickshell
@@ -7,7 +16,9 @@
     brightnessctl
     socat
     cliphist
-    swww
+    awww
+    swwwCompat
+    swwwDaemonCompat
     ffmpeg
     imagemagick
     libnotify

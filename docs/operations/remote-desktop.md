@@ -16,6 +16,7 @@ O `Sunshine` usa as portas padrao de stream no `tailscale0`, mas a Web UI fica l
 
 ```bash
 systemctl --user status sunshine
+systemctl --user status sunshine-microphone-source
 ```
 
 5. No cliente, usar `Moonlight` para parear e depois abrir `Desktop`.
@@ -25,6 +26,8 @@ systemctl --user status sunshine
 
 - Este fluxo espelha a sessao atual do `Hyprland`; nao cria uma sessao separada.
 - O setup atual assume monitor fisico conectado.
+- O Sunshine usa NVENC com suporte CUDA e anuncia HEVC Main (`hevc_mode = 2`) para permitir H.265 nos clientes Moonlight compativeis.
+- O servico `sunshine-microphone-source` cria a entrada `Sunshine_Microphone`, liga ela a source de captura da sessao e a deixa como source padrao para apps como Discord.
 - A Web UI nao e publicada na tailnet; o host precisa ser adicionado manualmente no `Moonlight`.
 - Depois que a conexao abre, teclado e mouse sao enviados automaticamente pelo `Moonlight`.
 - O `XRDP` continua disponivel como fallback para sessao separada.

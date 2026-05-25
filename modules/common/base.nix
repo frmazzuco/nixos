@@ -48,7 +48,7 @@ in
     AllowSuspendThenHibernate = "no";
   };
 
-  console.keyMap = "br-abnt2";
+  console.keyMap = "us";
   hardware.i2c.enable = true;
 
   users.users.${userName} = {

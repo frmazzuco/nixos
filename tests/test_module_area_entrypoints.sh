@@ -40,6 +40,7 @@ done
 
 require_fixed './host-context.nix' "$repo_root/modules/common/default.nix"
 require_fixed './base.nix' "$repo_root/modules/common/default.nix"
+require_fixed './maintenance.nix' "$repo_root/modules/common/default.nix"
 require_fixed './desktop.nix' "$repo_root/modules/common/default.nix"
 require_fixed './packages.nix' "$repo_root/modules/common/default.nix"
 require_fixed './quickshell-core.nix' "$repo_root/modules/common/default.nix"
@@ -48,6 +49,8 @@ require_fixed './qwen35-9b.nix' "$repo_root/modules/ai/default.nix"
 
 require_fixed './user-dotfiles.nix' "$repo_root/modules/compat/default.nix"
 require_fixed './ambient-assistant.nix' "$repo_root/modules/services/default.nix"
+require_fixed './backups.nix' "$repo_root/modules/services/default.nix"
+require_fixed './mt7902-driver.nix' "$repo_root/modules/services/default.nix"
 require_fixed './orico-storage.nix' "$repo_root/modules/services/default.nix"
 require_fixed './sunshine.nix' "$repo_root/modules/services/default.nix"
 require_fixed './openrgb-kingston.nix' "$repo_root/modules/services/default.nix"

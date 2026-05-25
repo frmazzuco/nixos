@@ -9,16 +9,19 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - Host `nixos` pronto para `nixos-rebuild --flake`.
 - Base pinada em `nixpkgs-unstable`.
 - Alias `nixpkgs-unstable` mantido para componentes que ainda referenciam esse input nominalmente.
+- Input `mt7902-temp` para compilar os modulos `mt76`/`mt7921e` com suporte a placa Wi-Fi MT7902.
 - Input dedicado do upstream `github:aylur/ags` para o runtime de notificacoes do desktop.
 - Build custom do `llama.cpp` com CUDA arch `120`.
 - Toolchain CUDA basico disponivel globalmente no host via `cudaPackages.cuda_nvcc` e `cudaPackages.cuda_cudart`.
 - Wrappers do Qwen 3.5 9B para chat, server e download, mantidos para uso manual local.
 - `claude-code` disponivel globalmente no host via `nixpkgs-unstable`.
-- Servico `systemd --user` para manter o `gemma4-e4b-server` disponivel para o `ambient-assistant`.
+- Presets locais de IA instalados para uso manual, sem `llama-server` subindo por padrao.
 - Servico `systemd --user` para manter o `ambient-assistant` disponivel para o widget local de IA.
 - Harness local sem privilegios para validar flake, defaults e sincronismo basico entre codigo e docs.
 - Compatibilidade local para `bubblewrap` e plugins do shell.
 - Modulos separados por area, sem enfiar tudo em um `configuration.nix` gigante.
+- Manutencao automatica do host: GC do Nix, otimizacao do store e limite do journald.
+- Backup local criptografado com restic para repos, configs e segredos selecionados.
 - Contexto do host centralizado em `modules/common/host-context.nix`, evitando espalhar usuario e caminhos-base em varios modulos.
 - O host importa entrypoints por area (`modules/common`, `modules/ai`, `modules/compat`, `modules/services`) em vez de listar arquivos soltos.
 
@@ -42,6 +45,7 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - `hosts/nixos/`: ponto de entrada do host atual.
 - `modules/common/default.nix`: entrypoint da camada base do host.
 - `modules/common/base.nix`: locale, boot, usuario, Docker, fontes e base do sistema.
+- `modules/common/maintenance.nix`: GC do Nix, otimizacao do store e retencao do journald.
 - `modules/common/host-context.nix`: usuario principal e caminhos-base compartilhados pelos modulos do host.
 - `modules/common/desktop.nix`: X11, greetd/tuigreet, Hyprland, Steam, NVIDIA/AMD, XRDP, PipeWire e Tailscale.
 - `modules/common/packages.nix`: pacotes globais, ferramentas do dia a dia, runtime/toolchain CUDA, Discord, `agsFull` do upstream e `stow` para aplicar a configuracao ativa do desktop.
@@ -49,15 +53,17 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - `modules/ai/default.nix`: entrypoint dos presets e wrappers locais de IA.
 - `modules/ai/common.nix`: helper compartilhado para `llama.cpp`, downloads e serviços locais de IA.
 - `modules/ai/qwen35-9b.nix`: wrappers `qwen35-9b-*` e servico local manual para o OpenCode.
-- `modules/ai/gemma4-e4b.nix`: wrappers `gemma4-e4b-*` e servico local padrao para o Gemma 4 E4B.
-- `modules/ai/gemma4-26b.nix`: wrappers `gemma4-26b-*` e servico local manual para o Gemma 4 26B.
+- `modules/ai/gemma4-e4b.nix`: wrappers `gemma4-e4b-*` e preset manual para o Gemma 4 E4B.
+- `modules/ai/gemma4-26b.nix`: wrappers `gemma4-26b-*` e servico local padrao para o Gemma 4 26B.
 - `modules/compat/default.nix`: entrypoint da camada de compatibilidade com o ambiente do usuario.
 - `modules/compat/user-dotfiles.nix`: compatibilidade entre sistema e ambiente de usuario.
 - `modules/services/default.nix`: entrypoint dos servicos locais da workstation.
 - `modules/services/ambient-assistant.nix`: servico `systemd --user` do backend local usado pelo widget de IA.
+- `modules/services/backups.nix`: backup local criptografado via restic para configs, repos e segredos selecionados, com senha materializada a partir do item `linux` no Bitwarden CLI.
 - `modules/services/cloudflared-media-tunnel.nix`: tunel persistente de Jellyfin e Seerr via Cloudflare, buscando o token do tunel no BWS em runtime.
+- `modules/services/mt7902-driver.nix`: kernel compativel, regdom BR, NetworkManager sem powersave no Wi-Fi, firmware e carga dos modulos `mt76`/`mt7921e` da placa Wi-Fi MT7902.
 - `modules/services/orico-storage.nix`: suporte `mdadm` e montagem automatica do volume unico externo em `/mnt/orico-storage`.
-- `modules/services/sunshine.nix`: espelhamento remoto da sessao atual do `Hyprland` via `Moonlight`, restrito a `tailscale0`.
+- `modules/services/sunshine.nix`: espelhamento remoto da sessao atual do `Hyprland` via `Moonlight`, com NVENC e `Sunshine_Microphone`, restrito a `tailscale0`.
 - `modules/services/openrgb-kingston.nix`: ajuste de RGB da memoria no boot.
 
 ## Uso rapido
@@ -108,8 +114,8 @@ systemctl --user stop qwen35-9b-server
 journalctl --user -u qwen35-9b-server -f
 ```
 
-O preset que sobe por padrao desde o boot do host e o `gemma4-e4b-server`, atendendo em `127.0.0.1:18083` via `systemd --user` com `linger` habilitado para `fmazzuco`.
-O `ambient-assistant` tambem sobe por `default.target`, mas agora usa `openai-compat` apontando para `http://127.0.0.1:18083/v1` com `gemma-4-e4b-it-Q8_0.gguf` e perfil `thinking-general`. O modulo monta um Python dedicado com `openai-agents`, mantendo o checkout do repo em `PYTHONPATH`.
+Nenhum preset de IA sobe por padrao desde o boot; inicie `gemma4-26b-server`, `gemma4-e4b-server` ou `qwen35-9b-server` manualmente quando precisar do endpoint local.
+O `ambient-assistant` sobe por `default.target`, usando `openai-compat` apontando para `http://127.0.0.1:18083/v1` com `gemma-4-26B-A4B-it-UD-IQ4_XS.gguf` e perfil `thinking-general`, mas nao inicia o `llama-server` sozinho. O modulo monta um Python dedicado com `openai-agents`, mantendo o checkout do repo em `PYTHONPATH`.
 Para a tool local do Seerr, o servico tambem recebe `AMBIENT_ASSISTANT_SEERR_SETTINGS_FILE=%h/arr/config/jellyseerr/settings.json` e le a `main.apiKey` diretamente desse arquivo, sem depender de um wrapper extra no startup.
 O tunel persistente de Jellyfin e Seerr sobe por `systemd --user` como `cloudflared-media-tunnel`, usando `cloudflared tunnel --token` e buscando o token do Cloudflare no BWS em runtime. O bootstrap local depende do arquivo `~/.config/cloudflared/media-bws.env` com `BWS_ACCESS_TOKEN` e, opcionalmente, `CLOUDFLARE_TUNNEL_BWS_SECRET_KEY` (default `cloudflare`) ou `CLOUDFLARE_TUNNEL_BWS_SECRET_ID`.
 Os servicos especificos de cada preset continuam em `modules/ai/*.nix`; servicos locais transversais, como `ambient-assistant`, `sunshine` e `openrgb`, ficam agregados em `modules/services/`.
@@ -151,6 +157,7 @@ O runtime de notificacoes usa `ags` do sistema; a configuracao e o launcher da s
 - O mapa curto do host esta em `docs/architecture/host-map.md`.
 - O harness de qualidade esta em `docs/operations/harness.md`.
 - O fluxo operacional de acesso remoto fica em `docs/operations/remote-desktop.md`.
+- O fluxo operacional de backup e restore fica em `docs/operations/backups.md`.
 - A documentacao do preset rapido do Qwen esta em `docs/qwen35-9b.md`.
 - A documentacao do preset local do Gemma 4 E4B esta em `docs/gemma4-e4b.md`.
 - A documentacao do preset local do Gemma 4 26B esta em `docs/gemma4-26b.md`.

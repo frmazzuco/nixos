@@ -4,6 +4,11 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-unstable.follows = "nixpkgs";
+    mt7902-temp = {
+      url = "github:OnlineLearningTutorials/mt7902_temp";
+      flake = false;
+    };
+    nixpkgs-lutris.url = "github:NixOS/nixpkgs/68a8af93ff4297686cb68880845e61e5e2e41d92";
     ags = {
       url = "github:aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";

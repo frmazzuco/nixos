@@ -29,7 +29,7 @@ in
   ];
   services.xserver.xkb = {
     layout = "us";
-    variant = "intl";
+    variant = "";
   };
 
   hardware.graphics = {

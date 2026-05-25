@@ -5,6 +5,7 @@ let
 in
 {
   system.activationScripts.userDotfilesCompat.text = ''
+    install -d -m 0755 -o ${userName} -g users ${userHome}/.zsh
     install -d -m 0755 -o ${userName} -g users ${userHome}/.zsh/plugins
     ln -sfn ${pkgs.zsh-autocomplete}/share/zsh-autocomplete ${userHome}/.zsh/plugins/zsh-autocomplete
     chown -h ${userName}:users ${userHome}/.zsh/plugins/zsh-autocomplete

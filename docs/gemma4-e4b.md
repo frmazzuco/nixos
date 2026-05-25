@@ -43,7 +43,7 @@ API local:
 
 Observacoes:
 
-- O `Gemma 4 E4B` sobe por padrao na sessao do usuario e, neste host, fica disponivel desde o boot via `systemd --user` com `linger` habilitado para `fmazzuco`.
+- O `Gemma 4 E4B` continua instalado para uso manual local, mas nao sobe mais por padrao para evitar conflito com o `Gemma 4 26B` na mesma porta.
 - O preset usa `Q8_0` para manter qualidade alta sem pressionar a VRAM como o `f16` completo faria nesta GPU.
 - O KV cache fica em `f16/f16`, que foi o ponto estavel validado aqui.
-- Para o `ambient-assistant`, o preset padrao agora e `provider_kind=openai-compat` apontando para `http://127.0.0.1:18083/v1` com perfil `thinking-general`.
+- Para usar o `Gemma 4 E4B`, pare antes o `gemma4-26b-server` se ele estiver rodando, porque ambos compartilham a porta `18083`.

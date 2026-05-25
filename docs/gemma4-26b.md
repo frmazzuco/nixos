@@ -19,7 +19,7 @@ Comandos:
 
 Preset aplicado para esta RTX 5070 Ti 16 GB:
 
-- `ctx-size=68000`
+- `ctx-size=128000`
 - `batch-size=2048`
 - `ubatch-size=512`
 - `flash-attn=on`
@@ -33,7 +33,7 @@ Preset aplicado para esta RTX 5070 Ti 16 GB:
 Benchmark local resumido nesta RTX 5070 Ti 16 GB:
 
 - `~64k` tokens reais: `Prompt 3284.8 t/s`, `Generation 106.7 t/s`
-- `68k` passou com folga residual minima na VRAM (`~53 MiB` livres no smoke test)
+- `70k`, `80k`, `100k` e `128k` subiram nesta RTX 5070 Ti 16 GB com o preset atual quando testados com a GPU limpa
 
 API local:
 
@@ -41,7 +41,7 @@ API local:
 
 Observacoes:
 
-- O `Gemma 4 26B` agora fica como preset manual quando voce quiser priorizar mais qualidade em troca de uso maior de VRAM.
+- O `Gemma 4 26B` nao sobe por padrao na sessao do usuario; inicie `systemctl --user start gemma4-26b-server` quando precisar do endpoint local.
 - O preset usa `flash-attn on` com `cache-type-k=f16` e `cache-type-v=f16`, que foi o melhor ponto medido aqui entre throughput e estabilidade.
-- O `ctx-size=68000` funciona, mas fica bem perto do limite da VRAM; se voce quiser margem extra para variacao de carga, reduza para `64000`.
-- Para testar com o `ambient-assistant`, prefira o preset `Gemma 4 E4B`; o `26B` pode ser subido manualmente na mesma porta quando voce quiser comparar qualidade.
+- O `ctx-size=128000` esta validado neste host, mas deixa pouca folga de VRAM; se voce quiser mais margem para concorrencia ou carga grafica, reduza para `100000`.
+- O `ambient-assistant` aponta para o endpoint do `Gemma 4 26B` na porta `18083`, mas nao inicia o `llama-server` sozinho; o widget local de IA so responde quando o servidor for iniciado manualmente.

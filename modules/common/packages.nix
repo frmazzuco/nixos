@@ -4,6 +4,17 @@ let
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
   };
+  lutrisPackages = import inputs.nixpkgs-lutris {
+    system = pkgs.stdenv.hostPlatform.system;
+    config.allowUnfree = true;
+    overlays = [
+      (_final: prev: {
+        openldap = prev.openldap.overrideAttrs (_old: {
+          doCheck = false;
+        });
+      })
+    ];
+  };
   agsPackages = inputs.ags.packages.${pkgs.stdenv.hostPlatform.system};
   walkerPackages = inputs.walker.packages.${pkgs.stdenv.hostPlatform.system};
   elephantPackages = inputs.elephant.packages.${pkgs.stdenv.hostPlatform.system};
@@ -13,74 +24,78 @@ in
   environment.sessionVariables.ELEPHANT_PROVIDER_DIR = "${elephantPackages.default}/lib/elephant/providers";
 
   environment.systemPackages = with pkgs; [
+    # --- Core & Shell ---
     bubblewrap
-    git
-    git-lfs
-    gh
-    neovim
-    tmux
-    zsh
-    gcc
-    gnumake
-    cmake
-    cudaPackages.cuda_cudart
-    cudaPackages.cuda_nvcc
-    pkg-config
-    just
-    python3
-    ripgrep
-    fd
-    stow
-    eza
-    fzf
     zoxide
     atuin
-    jq
-    yq-go
+    fzf
+    eza
+    fd
+    ripgrep
     tree
     file
     unzip
     zip
+    stow
+
+    # --- CLI Tools ---
+    git
+    git-lfs
+    gh
+    jq
+    yq-go
+    curl
+    bc
+    just
+    fastfetch
+    btop
+
+    # --- Development ---
+    neovim
+    tmux
+    nodejs
+    gcc
+    gnumake
+    cmake
+    pkg-config
+    python3
     nixd
     nixfmt-rfc-style
-    ghostty
-    discord
     kubectl
-    xfce4-session
-    xfconf
-    xfce4-panel
-    xfwm4
-    xfdesktop
-    xfce4-settings
-    xfce4-exo
-    garcon
-    xfce4-terminal
-    thunar
+
+    # --- AI & Specialized ---
     unstablePackages.claude-code
     unstablePackages.opencode
+    walkerPackages.walker
+    elephantPackages.default
+    agsPackages.agsFull
+
+    # --- Graphics & Desktop ---
+    ghostty
+    hyprlock
+    hyprpolkitagent
+    networkmanagerapplet
+    pavucontrol
+    playerctl
+    swww
+    grim
+    slurp
+    satty
+    imagemagick
+    ffmpeg
+    discord
+    lutrisPackages.lutris
+    umu-launcher
+    winetricks
+    unstablePackages.openrgb
+    phinger-cursors
+
+    # --- Utilities ---
     (writeShellScriptBin "pbcopy" ''
       exec ${wl-clipboard}/bin/wl-copy "$@"
     '')
     (writeShellScriptBin "pbpaste" ''
       exec ${wl-clipboard}/bin/wl-paste "$@"
     '')
-    nodejs
-    walkerPackages.walker
-    elephantPackages.default
-    agsPackages.agsFull
-    wl-clipboard
-    grim
-    slurp
-    satty
-    hyprlock
-    hyprpolkitagent
-    networkmanagerapplet
-    pavucontrol
-    playerctl
-    btop
-    fastfetch
-    bws
-    unstablePackages.openrgb
-    phinger-cursors
   ];
 }

@@ -43,7 +43,7 @@ let
       --top-k "''${GEMMA4_26B_TOP_K:-40}" \
       --min-p "''${GEMMA4_26B_MIN_P:-0.0}" \
       --repeat-penalty "''${GEMMA4_26B_REPEAT_PENALTY:-1.05}" \
-      --ctx-size "''${GEMMA4_26B_CTX:-68000}" \
+      --ctx-size "''${GEMMA4_26B_CTX:-128000}" \
       --batch-size "''${GEMMA4_26B_BATCH:-2048}" \
       --ubatch-size "''${GEMMA4_26B_UBATCH:-512}" \
       --threads "''${GEMMA4_26B_THREADS:-12}" \
@@ -80,7 +80,7 @@ let
       --top-k "''${GEMMA4_26B_TOP_K:-40}" \
       --min-p "''${GEMMA4_26B_MIN_P:-0.0}" \
       --repeat-penalty "''${GEMMA4_26B_REPEAT_PENALTY:-1.05}" \
-      --ctx-size "''${GEMMA4_26B_CTX:-68000}" \
+      --ctx-size "''${GEMMA4_26B_CTX:-128000}" \
       --batch-size "''${GEMMA4_26B_BATCH:-2048}" \
       --ubatch-size "''${GEMMA4_26B_UBATCH:-512}" \
       --threads "''${GEMMA4_26B_THREADS:-12}" \
@@ -107,7 +107,7 @@ in
       "gemma4-31b-server.service"
     ];
     environment = [
-      "GEMMA4_26B_CTX=68000"
+      "GEMMA4_26B_CTX=128000"
       "GEMMA4_26B_CACHE_K=f16"
       "GEMMA4_26B_CACHE_V=f16"
     ];
