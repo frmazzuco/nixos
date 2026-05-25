@@ -2,20 +2,20 @@
 let
   xrdpXfceSession = pkgs.writeShellScript "xrdp-startxfce4" ''
     export PATH=${
-        pkgs.lib.makeBinPath [
-          pkgs.dbus
-          pkgs.xfce4-session
-          pkgs.xfconf
-          pkgs.xfwm4
-          pkgs.xfdesktop
-          pkgs.xfce4-settings
-          pkgs.xfce4-exo
-          pkgs.garcon
-          pkgs.xfce4-panel
-          pkgs.xfce4-terminal
-          pkgs.thunar
-        ]
-      }:$PATH
+      pkgs.lib.makeBinPath [
+        pkgs.dbus
+        pkgs.xfce4-session
+        pkgs.xfconf
+        pkgs.xfwm4
+        pkgs.xfdesktop
+        pkgs.xfce4-settings
+        pkgs.xfce4-exo
+        pkgs.garcon
+        pkgs.xfce4-panel
+        pkgs.xfce4-terminal
+        pkgs.thunar
+      ]
+    }:$PATH
     export XDG_CONFIG_DIRS="${pkgs.xfce4-session}/etc/xdg:${pkgs.garcon}/etc/xdg''${XDG_CONFIG_DIRS:+:$XDG_CONFIG_DIRS}"
     export XDG_DATA_DIRS="${pkgs.xfce4-session}/share:${pkgs.xfconf}/share:${pkgs.garcon}/share:${pkgs.xfce4-exo}/share:${pkgs.xfce4-panel}/share:${pkgs.xfdesktop}/share:${pkgs.xfce4-settings}/share''${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"
     exec ${pkgs.xfce4-session}/bin/startxfce4
@@ -36,6 +36,12 @@ in
     enable = true;
     enable32Bit = true;
   };
+
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
+  services.blueman.enable = true;
 
   services.greetd = {
     enable = true;

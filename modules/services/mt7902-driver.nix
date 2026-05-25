@@ -53,6 +53,36 @@ let
     '';
   };
 
+  mt7902BluetoothModules = pkgs.stdenv.mkDerivation {
+    pname = "mt7902-bluetooth-modules";
+    version = "unstable-${mt7902SourceVersion}";
+    src = mt7902Kernel.src;
+
+    nativeBuildInputs = mt7902Kernel.moduleBuildDependencies;
+
+    postPatch = ''
+      perl -0pi -e 's/#define FIRMWARE_MT7922\t\t"mediatek\/BT_RAM_CODE_MT7922_1_1_hdr\.bin"/#define FIRMWARE_MT7902\t\t"mediatek\/BT_RAM_CODE_MT7902_1_1_hdr.bin"\n#define FIRMWARE_MT7922\t\t"mediatek\/BT_RAM_CODE_MT7922_1_1_hdr.bin"/' drivers/bluetooth/btmtk.h
+      perl -0pi -e 's/case 0x7922:/case 0x7902:\n\tcase 0x7922:/' drivers/bluetooth/btmtk.c
+      perl -0pi -e 's/MODULE_FIRMWARE\(FIRMWARE_MT7922\);/MODULE_FIRMWARE(FIRMWARE_MT7902);\nMODULE_FIRMWARE(FIRMWARE_MT7922);/' drivers/bluetooth/btmtk.c
+      perl -0pi -e 's/\/\* Additional MediaTek MT7663 Bluetooth devices \*\//\/\* Additional MediaTek MT7902 Bluetooth devices \*\/\n\t{ USB_DEVICE(0x13d3, 0x3596), .driver_info = BTUSB_MEDIATEK |\n\t\t\t\t\t\t     BTUSB_WIDEBAND_SPEECH },\n\n\t\/\* Additional MediaTek MT7663 Bluetooth devices \*\//' drivers/bluetooth/btusb.c
+    '';
+
+    buildPhase = ''
+      runHook preBuild
+      make -C ${mt7902Kernel.dev}/lib/modules/${mt7902ModDirVersion}/build M=$PWD/drivers/bluetooth modules
+      runHook postBuild
+    '';
+
+    installPhase = ''
+      runHook preInstall
+      install -Dm644 drivers/bluetooth/btmtk.ko \
+        $out/lib/modules/${mt7902ModDirVersion}/updates/mt7902-bluetooth/btmtk.ko
+      install -Dm644 drivers/bluetooth/btusb.ko \
+        $out/lib/modules/${mt7902ModDirVersion}/updates/mt7902-bluetooth/btusb.ko
+      runHook postInstall
+    '';
+  };
+
   modulePath =
     module: "${mt7902Modules}/lib/modules/${mt7902ModDirVersion}/extra/mt7902/${module}.ko";
 in
@@ -65,7 +95,10 @@ in
   ];
 
   boot.kernelPackages = mt7902KernelPackages;
-  boot.extraModulePackages = [ mt7902Modules ];
+  boot.extraModulePackages = [
+    mt7902Modules
+    mt7902BluetoothModules
+  ];
   boot.blacklistedKernelModules = [ "mt7902" ];
   hardware.firmware = [ mt7902Firmware ];
   hardware.wirelessRegulatoryDatabase = true;
