@@ -120,7 +120,7 @@ Para a tool local do Seerr, o servico tambem recebe `AMBIENT_ASSISTANT_SEERR_SET
 O tunel persistente de Jellyfin e Seerr sobe por `systemd --user` como `cloudflared-media-tunnel`, usando `cloudflared tunnel --token` e buscando o token do Cloudflare no BWS em runtime. O bootstrap local depende do arquivo `~/.config/cloudflared/media-bws.env` com `BWS_ACCESS_TOKEN` e, opcionalmente, `CLOUDFLARE_TUNNEL_BWS_SECRET_KEY` (default `cloudflare`) ou `CLOUDFLARE_TUNNEL_BWS_SECRET_ID`.
 Os servicos especificos de cada preset continuam em `modules/ai/*.nix`; servicos locais transversais, como `ambient-assistant`, `sunshine` e `openrgb`, ficam agregados em `modules/services/`.
 O storage externo ORICO usa um volume unico `RAID0` montado em `/mnt/orico-storage` quando o gabinete estiver conectado; a montagem foi declarada com `nofail` e `x-systemd.automount` para nao atrasar o boot se ele estiver desligado.
-O Bluetooth do desktop usa BlueZ com `powerOnBoot` e `blueman`, deixando `bluetooth.service` e `bluetoothctl` disponiveis apos aplicar a configuracao.
+O Bluetooth do desktop usa BlueZ com `powerOnBoot`, `blueman` e `upower`, deixando `bluetooth.service`, `bluetoothctl`, `upowerd` e `upower` disponiveis apos aplicar a configuracao. O `upower` cobre consultas de bateria de perifericos que exponham esse dado ao sistema.
 
 ## Dependencias locais
 

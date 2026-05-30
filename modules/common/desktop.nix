@@ -42,6 +42,7 @@ in
     powerOnBoot = true;
   };
   services.blueman.enable = true;
+  services.upower.enable = true;
 
   services.greetd = {
     enable = true;

@@ -15,7 +15,7 @@ Mapa curto do host `nixos` e dos limites deste repositorio.
 - `modules/common/host-context.nix`: usuario principal e caminhos-base compartilhados do host
 - `modules/common/base.nix`: boot, locale, usuario, Docker, fontes, shell e base do sistema
 - `modules/common/maintenance.nix`: GC do Nix, otimizacao do store e limite do journald
-- `modules/common/desktop.nix`: X11, greetd/tuigreet, Hyprland, GPU hibrida, Bluetooth/BlueZ, XRDP, audio, Tailscale e portals
+- `modules/common/desktop.nix`: X11, greetd/tuigreet, Hyprland, GPU hibrida, Bluetooth/BlueZ, UPower, XRDP, audio, Tailscale e portals
 - `modules/common/packages.nix`: ferramentas globais, pacotes do dia a dia, `agsFull` do upstream e `stow` para a camada ativa de dotfiles
 - `modules/common/quickshell-core.nix`: runtime e dependencias do Quickshell
 - `modules/ai/qwen35-9b.nix`: preset 9B, wrappers e servico manual

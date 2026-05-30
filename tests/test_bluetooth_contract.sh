@@ -13,10 +13,13 @@ host_map_file="$repo_root/docs/architecture/host-map.md"
 require_fixed 'hardware.bluetooth = {' "$desktop_file"
 require_fixed 'powerOnBoot = true;' "$desktop_file"
 require_fixed 'services.blueman.enable = true;' "$desktop_file"
+require_fixed 'services.upower.enable = true;' "$desktop_file"
 
 require_fixed 'Bluetooth/BlueZ' "$readme_file"
 require_fixed 'bluetooth.service' "$readme_file"
 require_fixed 'bluetoothctl' "$readme_file"
+require_fixed 'upower' "$readme_file"
 require_fixed 'Bluetooth/BlueZ' "$host_map_file"
+require_fixed 'UPower' "$host_map_file"
 
 printf 'Bluetooth contract OK\n'
