@@ -12,8 +12,8 @@ Read [AGENTS.md](AGENTS.md) for missao, mapa rapido, guardrails, e regras de ent
 ## Ambient assistant integration points
 
 - `modules/services/ambient-assistant.nix` — systemd user service for the assistant backend
-- `modules/ai/qwen35-9b.nix` — Qwen 3.5 9B model server (port 8080, thinking-general default)
-- The assistant service depends on `qwen35-9b-server.service` (After=)
+- `modules/ai/gemma4-26b.nix` — Gemma 4 26B model server (base URL `http://127.0.0.1:18083/v1`)
+- The assistant service depends on `gemma4-26b-server.service` (After=)
 
 ## Related repos
 
