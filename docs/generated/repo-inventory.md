@@ -28,5 +28,6 @@ Snapshot curto do repositorio para navegacao rapida.
 - `docs/operations/harness.md`
 - `docs/gemma4-e4b.md`
 - `docs/gemma4-26b.md`
+- `docs/gemma4-31b.md`
 - `docs/qwen35-9b.md`
 - `docs/quickshell-migration.md`
