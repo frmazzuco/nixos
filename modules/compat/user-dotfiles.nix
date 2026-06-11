@@ -1,3 +1,9 @@
+# Fronteira de responsabilidade: o NixOS e dono do symlink
+# ~/.zsh/plugins/zsh-autocomplete de proposito, porque o alvo e um caminho da
+# nix store que o repo de dotfiles (stow) nao consegue prover. O .zshrc dos
+# dotfiles faz source desse arquivo atras de um guard -r. Todo o resto dos
+# dotfiles do usuario e de responsabilidade de ~/repos/dotfiles via stow --
+# nao adicione mais gerenciamento de dotfiles de usuario aqui.
 { pkgs, config, ... }:
 let
   userName = config.workstation.userName;
