@@ -84,5 +84,12 @@ in
     fira-code
   ];
 
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    openFirewall = false;
+    settings = {
+      PermitRootLogin = "no";
+      PubkeyAuthentication = true;
+    };
+  };
 }

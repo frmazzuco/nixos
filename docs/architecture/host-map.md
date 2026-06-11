@@ -13,7 +13,7 @@ Mapa curto do host `nixos` e dos limites deste repositorio.
 - `modules/ai/common.nix`: base compartilhada para `llama.cpp`, downloads de modelos e serviços locais
 - `modules/ai/default.nix`: entrypoint dos presets de IA
 - `modules/common/host-context.nix`: usuario principal e caminhos-base compartilhados do host
-- `modules/common/base.nix`: boot, locale, usuario, Docker, fontes, shell e base do sistema
+- `modules/common/base.nix`: boot, locale, usuario, Docker, fontes, shell, OpenSSH e base do sistema
 - `modules/common/maintenance.nix`: GC do Nix, otimizacao do store e limite do journald
 - `modules/common/desktop.nix`: X11, greetd/tuigreet, Hyprland, GPU hibrida, Bluetooth/BlueZ, UPower, XRDP, audio, Tailscale e portals
 - `modules/common/packages.nix`: ferramentas globais, pacotes do dia a dia, `agsFull` do upstream e `stow` para a camada ativa de dotfiles

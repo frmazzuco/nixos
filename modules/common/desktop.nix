@@ -79,7 +79,10 @@ in
   services.printing.enable = true;
   services.tailscale.enable = true;
   services.tailscale.openFirewall = true;
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 3389 ];
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
+    22
+    3389
+  ];
 
   services.xrdp.enable = true;
   services.xrdp.defaultWindowManager = "${xrdpXfceSession}";
