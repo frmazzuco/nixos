@@ -6,6 +6,7 @@
 }:
 let
   ai = import ./common.nix { inherit pkgs inputs config; };
+  ports = import ./ports.nix;
 
   modelsRoot = "${ai.userHome}/models/gemma4";
 
@@ -90,7 +91,7 @@ let
     exec ${ai.llamaCppCuda}/bin/llama-server \
       --model "$MODEL_FILE" \
       --host "''${GEMMA4_31B_HOST:-127.0.0.1}" \
-      --port "''${GEMMA4_31B_PORT:-8084}" \
+      --port "''${GEMMA4_31B_PORT:-${toString ports."gemma4-31b"}}" \
       --jinja \
       --temp "''${GEMMA4_31B_TEMP:-0.7}" \
       --top-p "''${GEMMA4_31B_TOP_P:-0.9}" \

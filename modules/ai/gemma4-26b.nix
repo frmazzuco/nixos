@@ -6,6 +6,7 @@
 }:
 let
   ai = import ./common.nix { inherit pkgs inputs config; };
+  ports = import ./ports.nix;
 
   modelsRoot = "${ai.userHome}/models/gemma4";
 
@@ -70,7 +71,7 @@ let
     exec ${ai.llamaCppCuda}/bin/llama-server \
       --model "$MODEL_FILE" \
       --host "''${GEMMA4_26B_HOST:-127.0.0.1}" \
-      --port "''${GEMMA4_26B_PORT:-18083}" \
+      --port "''${GEMMA4_26B_PORT:-${toString ports."gemma4-26b"}}" \
       --jinja \
       --reasoning on \
       --reasoning-format deepseek \

@@ -6,6 +6,7 @@
 }:
 let
   ai = import ./common.nix { inherit pkgs inputs config; };
+  ports = import ./ports.nix;
 
   qwen35_9BModelDir = "${ai.modelsRoot}/Qwen3.5-9B-GGUF";
   qwen35_9BModelFile = "${qwen35_9BModelDir}/Qwen_Qwen3.5-9B-Q4_K_M.gguf";
@@ -167,7 +168,7 @@ let
     exec ${ai.llamaCppCuda}/bin/llama-server \
       --model "$MODEL_FILE" \
       --host "''${QWEN35_9B_HOST:-127.0.0.1}" \
-      --port "''${QWEN35_9B_PORT:-8080}" \
+      --port "''${QWEN35_9B_PORT:-${toString ports."qwen35-9b"}}" \
       --jinja \
       --no-prefill-assistant \
       --reasoning-format "''${QWEN35_9B_REASONING_FORMAT:-$DEFAULT_REASONING_FORMAT}" \

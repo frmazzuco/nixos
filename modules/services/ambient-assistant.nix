@@ -1,5 +1,6 @@
 { pkgs, config, ... }:
 let
+  ports = import ../ai/ports.nix;
   assistantRepo = "${config.workstation.repoRoot}/ambient-assistant";
   assistantPython = pkgs.python313.withPackages (ps: [
     ps.openai-agents
@@ -16,7 +17,7 @@ in
         "AMBIENT_ASSISTANT_HOST=127.0.0.1"
         "AMBIENT_ASSISTANT_PORT=8765"
         "AMBIENT_ASSISTANT_PROVIDER_KIND=openai-compat"
-        "AMBIENT_ASSISTANT_PROVIDER_BASE_URL=http://127.0.0.1:18083/v1"
+        "AMBIENT_ASSISTANT_PROVIDER_BASE_URL=http://127.0.0.1:${toString ports."gemma4-26b"}/v1"
         "AMBIENT_ASSISTANT_MODEL=gemma-4-26B-A4B-it-UD-IQ4_XS.gguf"
         "AMBIENT_ASSISTANT_PROFILE=thinking-general"
         "AMBIENT_ASSISTANT_MAX_TOOL_ROUNDS=24"
