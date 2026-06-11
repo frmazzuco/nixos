@@ -23,7 +23,7 @@ require_fixed './cloudflared-media-tunnel.nix' "$entrypoint_file"
 require_fixed 'cloudflared-media-tunnel' "$readme_file"
 require_fixed 'media-bws.env' "$readme_file"
 require_fixed 'BWS_ACCESS_TOKEN' "$readme_file"
-require_fixed 'Jellyfin e Seerr' "$readme_file"
+require_fixed 'Jellyfin, Seerr e Beszel' "$readme_file"
 
 require_fixed 'modules/services/cloudflared-media-tunnel.nix' "$host_map_file"
 require_fixed 'media-bws.env' "$host_map_file"
