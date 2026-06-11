@@ -14,7 +14,7 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - Build custom do `llama.cpp` com CUDA arch `120`.
 - Toolchain CUDA basico disponivel globalmente no host via `cudaPackages.cuda_nvcc` e `cudaPackages.cuda_cudart`.
 - Wrappers do Qwen 3.5 9B para chat, server e download, mantidos para uso manual local.
-- `claude-code` disponivel globalmente no host via `nixpkgs-unstable`.
+- `claude-code` disponivel globalmente no host via binario oficial pinado.
 - Presets locais de IA instalados para uso manual, sem `llama-server` subindo por padrao.
 - Servico `systemd --user` para manter o `ambient-assistant` disponivel para o widget local de IA.
 - Harness local sem privilegios para validar flake, defaults e sincronismo basico entre codigo e docs.
