@@ -64,6 +64,7 @@ let
       perl -0pi -e 's/#define FIRMWARE_MT7922\t\t"mediatek\/BT_RAM_CODE_MT7922_1_1_hdr\.bin"/#define FIRMWARE_MT7902\t\t"mediatek\/BT_RAM_CODE_MT7902_1_1_hdr.bin"\n#define FIRMWARE_MT7922\t\t"mediatek\/BT_RAM_CODE_MT7922_1_1_hdr.bin"/' drivers/bluetooth/btmtk.h
       perl -0pi -e 's/case 0x7922:/case 0x7902:\n\tcase 0x7922:/' drivers/bluetooth/btmtk.c
       perl -0pi -e 's/MODULE_FIRMWARE\(FIRMWARE_MT7922\);/MODULE_FIRMWARE(FIRMWARE_MT7902);\nMODULE_FIRMWARE(FIRMWARE_MT7922);/' drivers/bluetooth/btmtk.c
+      perl -0pi -e 's/\t\t\/\* Set up ISO interface after protocol enabled \*\/\n\t\tif \(test_bit\(BTMTK_ISOPKT_OVER_INTR, &btmtk_data->flags\)\) \{\n\t\t\tif \(!btmtk_usb_isointf_init\(hdev\)\)\n\t\t\t\tset_bit\(BTMTK_ISOPKT_RUNNING, &btmtk_data->flags\);\n\t\t\}\n\n\t\tgoto done;/\t\t\/\* Set up ISO interface after protocol enabled. MT7902 times out on 0xfd98. \*\/\n\t\tif (dev_id != 0x7902 \&\&\n\t\t    test_bit(BTMTK_ISOPKT_OVER_INTR, \&btmtk_data->flags)) {\n\t\t\tif (!btmtk_usb_isointf_init(hdev))\n\t\t\t\tset_bit(BTMTK_ISOPKT_RUNNING, \&btmtk_data->flags);\n\t\t}\n\n\t\tif (dev_id == 0x7902)\n\t\t\tmsleep(1000);\n\n\t\tgoto done;/s' drivers/bluetooth/btmtk.c
       perl -0pi -e 's/\/\* Additional MediaTek MT7663 Bluetooth devices \*\//\/\* Additional MediaTek MT7902 Bluetooth devices \*\/\n\t{ USB_DEVICE(0x13d3, 0x3596), .driver_info = BTUSB_MEDIATEK |\n\t\t\t\t\t\t     BTUSB_WIDEBAND_SPEECH },\n\n\t\/\* Additional MediaTek MT7663 Bluetooth devices \*\//' drivers/bluetooth/btusb.c
     '';
 
@@ -104,6 +105,7 @@ in
   hardware.wirelessRegulatoryDatabase = true;
   boot.extraModprobeConfig = lib.mkAfter ''
     options cfg80211 ieee80211_regdom=BR
+    options btusb reset=0
   '';
 
   networking.networkmanager.enable = true;

@@ -61,7 +61,7 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - `modules/services/ambient-assistant.nix`: servico `systemd --user` do backend local usado pelo widget de IA.
 - `modules/services/backups.nix`: backup local criptografado via restic para configs, repos e segredos selecionados, com senha materializada a partir do item `linux` no Bitwarden CLI.
 - `modules/services/cloudflared-media-tunnel.nix`: tunel persistente de Jellyfin e Seerr via Cloudflare, buscando o token do tunel no BWS em runtime.
-- `modules/services/mt7902-driver.nix`: kernel compativel, regdom BR, NetworkManager sem powersave no Wi-Fi, firmware e carga dos modulos `mt76`/`mt7921e` e `btusb`/`btmtk` da placa Wi-Fi/Bluetooth MT7902.
+- `modules/services/mt7902-driver.nix`: kernel compativel, regdom BR, NetworkManager sem powersave no Wi-Fi, firmware, `btusb reset=0` e carga dos modulos `mt76`/`mt7921e` e `btusb`/`btmtk` da placa Wi-Fi/Bluetooth MT7902.
 - `modules/services/orico-storage.nix`: suporte `mdadm` e montagem automatica do volume unico externo em `/mnt/orico-storage`.
 - `modules/services/sunshine.nix`: espelhamento remoto da sessao atual do `Hyprland` via `Moonlight`, com NVENC e `Sunshine_Microphone`, restrito a `tailscale0`.
 - `modules/services/openrgb-kingston.nix`: ajuste de RGB da memoria no boot.
@@ -121,7 +121,7 @@ O SSH nao abre a porta `22` globalmente pelo OpenSSH; ela e liberada apenas na i
 O tunel persistente de Jellyfin e Seerr sobe por `systemd --user` como `cloudflared-media-tunnel`, usando `cloudflared tunnel --token` e buscando o token do Cloudflare no BWS em runtime. O bootstrap local depende do arquivo `~/.config/cloudflared/media-bws.env` com `BWS_ACCESS_TOKEN` e, opcionalmente, `CLOUDFLARE_TUNNEL_BWS_SECRET_KEY` (default `cloudflare`) ou `CLOUDFLARE_TUNNEL_BWS_SECRET_ID`.
 Os servicos especificos de cada preset continuam em `modules/ai/*.nix`; servicos locais transversais, como `ambient-assistant`, `sunshine` e `openrgb`, ficam agregados em `modules/services/`.
 O storage externo ORICO usa um volume unico `RAID0` montado em `/mnt/orico-storage` quando o gabinete estiver conectado; a montagem foi declarada com `nofail` e `x-systemd.automount` para nao atrasar o boot se ele estiver desligado.
-O Bluetooth do desktop usa BlueZ com `powerOnBoot`, `blueman` e `upower`, deixando `bluetooth.service`, `bluetoothctl`, `upowerd` e `upower` disponiveis apos aplicar a configuracao. O `upower` cobre consultas de bateria de perifericos que exponham esse dado ao sistema.
+O Bluetooth do desktop usa BlueZ com `powerOnBoot`, `blueman` e `upower`, deixando `bluetooth.service`, `bluetoothctl`, `upowerd` e `upower` disponiveis apos aplicar a configuracao. No MT7902, o `btusb` sobe com `reset=0` e o patch local backporta o VID/PID `13d3:3596` e o firmware MT7902; tambem evita o comando ISO `0xfd98` nesse chip e aguarda a estabilizacao do firmware antes da inicializacao HCI padrao. O `upower` cobre consultas de bateria de perifericos que exponham esse dado ao sistema.
 
 ## Dependencias locais
 

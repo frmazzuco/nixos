@@ -27,7 +27,7 @@ Mapa curto do host `nixos` e dos limites deste repositorio.
 - `modules/services/ambient-assistant.nix`: backend local usado pelo widget de IA
 - `modules/services/backups.nix`: backup local criptografado com restic para configs, repos e segredos selecionados, com senha vinda do item `linux` no Bitwarden CLI
 - `modules/services/cloudflared-media-tunnel.nix`: tunel persistente de Jellyfin e Seerr via Cloudflare, resolvendo o token do tunel no BWS
-- `modules/services/mt7902-driver.nix`: kernel compativel, regdom BR, NetworkManager sem powersave no Wi-Fi, firmware e carga dos modulos `mt76`/`mt7921e` e `btusb`/`btmtk` da placa Wi-Fi/Bluetooth MT7902
+- `modules/services/mt7902-driver.nix`: kernel compativel, regdom BR, NetworkManager sem powersave no Wi-Fi, firmware, `btusb reset=0` e carga dos modulos `mt76`/`mt7921e` e `btusb`/`btmtk` da placa Wi-Fi/Bluetooth MT7902
 - `modules/services/orico-storage.nix`: suporte `mdadm` e montagem automatica do volume unico externo em `/mnt/orico-storage`
 - `modules/services/sunshine.nix`: espelhamento da sessao atual do Hyprland via Moonlight, com NVENC e `Sunshine_Microphone`, restrito ao Tailscale
 - `modules/services/openrgb-kingston.nix`: ajuste de RGB da memoria no boot
