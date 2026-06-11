@@ -1,5 +1,4 @@
 # Fonte unica de verdade para as portas dos servidores de modelos locais.
-# Consumido pelos modulos de AI (modules/ai/*.nix) e pelo ambient-assistant.
 # e4b e 26b compartilham a porta de proposito: os grupos de conflito do
 # systemd (Conflicts=) garantem que apenas um deles roda por vez.
 {
