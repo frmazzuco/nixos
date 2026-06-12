@@ -198,4 +198,12 @@ require_fixed '    3389' "$desktop_file"
 
 printf 'SSH Tailscale contract OK\n'
 
+# --- sudo sem senha apenas para nixos-rebuild ---
+
+require_fixed 'security.sudo.extraRules' "$base_file"
+require_fixed 'command = "/run/current-system/sw/bin/nixos-rebuild";' "$base_file"
+require_fixed '"NOPASSWD"' "$base_file"
+
+printf 'Sudo nixos-rebuild contract OK\n'
+
 printf 'Host contracts OK\n'

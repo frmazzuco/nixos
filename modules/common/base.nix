@@ -64,6 +64,20 @@ in
     ];
   };
 
+  # Permite ./bin/switch sem senha; vale root na pratica, aceito por ser
+  # maquina pessoal de usuario unico.
+  security.sudo.extraRules = [
+    {
+      users = [ userName ];
+      commands = [
+        {
+          command = "/run/current-system/sw/bin/nixos-rebuild";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+
   programs.zsh.enable = true;
   programs.firefox.enable = true;
   programs.direnv.enable = true;
