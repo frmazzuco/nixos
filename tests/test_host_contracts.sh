@@ -151,7 +151,6 @@ migration_doc="$repo_root/docs/quickshell-migration.md"
 
 expected_widget_targets() {
     printf '%s\n' \
-        assistant \
         calendar \
         focustime \
         music \

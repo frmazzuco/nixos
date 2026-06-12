@@ -25,7 +25,6 @@ Estado consolidado da migracao do desktop para Quickshell, separando runtime de 
 
 ### Widgets portados
 
-- `assistant`
 - `calendar`
 - `focustime`
 - `music`
