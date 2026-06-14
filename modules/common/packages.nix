@@ -150,6 +150,7 @@ in
     imagemagick
     ffmpeg
     discord
+    obsidian
     lutrisPackages.lutris
     umu-launcher
     winetricks
