@@ -154,6 +154,7 @@ in
     ffmpeg
     discord
     obsidian
+    jetbrains-toolbox
     lutrisPackages.lutris
     umu-launcher
     winetricks
