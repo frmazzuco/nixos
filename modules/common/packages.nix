@@ -84,6 +84,20 @@ let
       sourceProvenance = with pkgs.lib.sourceTypes; [ binaryNativeCode ];
     };
   };
+
+  # O .desktop do jetbrains-toolbox no nixpkgs vem com `Exec=jetbrains-toolbox`
+  # sem %u, entao o callback de login (redirect_uri=jetbrains://toolbox/jba/auth)
+  # chega no xdg-open mas a URL e descartada antes do binario. Sobrescrevemos o
+  # .desktop por um com %u (hiPrio ganha a colisao com o do pacote).
+  jetbrainsToolboxDesktop = pkgs.makeDesktopItem {
+    name = "jetbrains-toolbox";
+    desktopName = "JetBrains Toolbox";
+    exec = "jetbrains-toolbox %u";
+    icon = "jetbrains-toolbox";
+    terminal = false;
+    startupNotify = false;
+    mimeTypes = [ "x-scheme-handler/jetbrains" ];
+  };
 in
 {
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -155,6 +169,7 @@ in
     discord
     obsidian
     jetbrains-toolbox
+    (pkgs.lib.hiPrio jetbrainsToolboxDesktop)
     lutrisPackages.lutris
     umu-launcher
     winetricks
