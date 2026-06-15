@@ -88,6 +88,8 @@ in
 {
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.sessionVariables.ELEPHANT_PROVIDER_DIR = "${elephantPackages.default}/lib/elephant/providers";
+  environment.sessionVariables.EDITOR = "nvim";
+  environment.sessionVariables.VISUAL = "nvim";
 
   environment.systemPackages = with pkgs; [
     # --- Core & Shell ---
@@ -107,6 +109,7 @@ in
     # --- CLI Tools ---
     git
     git-lfs
+    delta
     gh
     jq
     yq-go
