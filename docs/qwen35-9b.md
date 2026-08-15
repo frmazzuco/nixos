@@ -5,8 +5,8 @@ Preset local com `thinking-general` por padrao nesta RTX 5070 Ti 16 GB.
 Modelo padrao:
 
 - Repo GGUF: `bartowski/Qwen_Qwen3.5-9B-GGUF`
-- Quantizacao: `Qwen_Qwen3.5-9B-Q4_K_M.gguf`
-- Caminho local: `/home/fmazzuco/models/qwen/Qwen3.5-9B-GGUF/Qwen_Qwen3.5-9B-Q4_K_M.gguf`
+- Quantização: `Qwen_Qwen3.5-9B-Q8_0.gguf`
+- Caminho local: `/home/fmazzuco/models/qwen/Qwen3.5-9B-GGUF/Qwen_Qwen3.5-9B-Q8_0.gguf`
 
 Comandos:
 
@@ -33,7 +33,7 @@ Preset aplicado para esta RTX 5070 Ti 16 GB:
 
 Benchmark local resumido nesta RTX 5070 Ti 16 GB:
 
-- `Q4_K_M` com `q4_0/q4_0`: perfil atual em teste para buscar melhor equilibrio entre qualidade e throughput
+- `Q8_0` com `q4_0/q4_0`: perfil de qualidade quase completa, carregado integralmente na RTX 5070 Ti de 16 GB
 - `IQ4_XS` com `q8_0/q4_0`: cerca de `118 tok/s` em `tg128`
 - `IQ4_XS` com `q4_0/q4_0`: cerca de `124 tok/s` em `tg128`
 
@@ -41,7 +41,7 @@ Contexto longo:
 
 - `QWEN35_9B_CTX=131072` para `128k`
 - Para `128k`, o default atual do servico e `QWEN35_9B_CACHE_K=q4_0` com `QWEN35_9B_CACHE_V=q4_0`
-- Validado localmente em `127.0.0.1:8080` com uso de GPU na casa de `6.4 GiB` em idle apos carga
+- Validado em `127.0.0.1:8082`, com 10.226 MiB de VRAM em uso, sem conflitar com o Zigbee2MQTT em `127.0.0.1:8080`
 
 Perfis:
 
@@ -67,15 +67,15 @@ Overrides uteis:
 
 API local:
 
-- `http://127.0.0.1:8080`
+- `http://127.0.0.1:8082`
 
 Observacoes:
 
 - O `Qwen 9B` continua instalado para uso manual local, mas nao deve ficar ativo junto do `Gemma 4 E4B` na mesma GPU.
-- O `qwen35-9b-server` continua exposto em `127.0.0.1:8080` para o `opencode`.
+- O `qwen35-9b-server` fica exposto em `127.0.0.1:8082` para o `opencode`.
 - O preset de servico padrao do modulo usa `QWEN35_9B_PROFILE=thinking-general`.
 - O `9B` agora fica como preset manual quando voce quiser priorizar o `opencode` local no lugar do `Gemma 4 E4B`.
 - O contexto de `128k` aumenta o custo de prefill, mas foi mantido como default atual do servico para preservar a janela longa do setup local.
 - O melhor ponto de velocidade medido ate agora foi `IQ4_XS` com KV em `q4_0/q4_0`.
-- O perfil atual foi movido para `Q4_K_M` com KV em `q4_0/q4_0` para testar um ponto com mais qualidade sem manter o custo do `q8_0` no KV.
-- Se quiser abrir um endpoint em outra porta, rode o binario manualmente com `QWEN35_9B_PORT=8081 qwen35-9b-server`, mas pare antes o `Gemma 4 E4B`.
+- O perfil atual usa pesos `Q8_0` com KV em `q4_0/q4_0`: preserva quase toda a qualidade dos pesos sem ultrapassar a VRAM com o contexto longo.
+- Se quiser abrir um endpoint em outra porta, rode o binário manualmente com `QWEN35_9B_PORT=8085 qwen35-9b-server`, mas pare antes o `Gemma 4 E4B`.

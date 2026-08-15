@@ -9,13 +9,13 @@ let
   ports = import ./ports.nix;
 
   qwen35_9BModelDir = "${ai.modelsRoot}/Qwen3.5-9B-GGUF";
-  qwen35_9BModelFile = "${qwen35_9BModelDir}/Qwen_Qwen3.5-9B-Q4_K_M.gguf";
+  qwen35_9BModelFile = "${qwen35_9BModelDir}/Qwen_Qwen3.5-9B-Q8_0.gguf";
 
   qwen35_9BDownload = ai.mkDownloadScript {
     name = "qwen35-9b-download";
     modelDir = qwen35_9BModelDir;
     repo = "bartowski/Qwen_Qwen3.5-9B-GGUF";
-    file = "Qwen_Qwen3.5-9B-Q4_K_M.gguf";
+    file = "Qwen_Qwen3.5-9B-Q8_0.gguf";
   };
 
   qwen35_9BChat = pkgs.writeShellScriptBin "qwen35-9b-chat" ''

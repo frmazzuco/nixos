@@ -16,13 +16,17 @@ let
       cudaSupport = true;
     }).overrideAttrs
       (old: {
-        version = "8661";
+        version = "10435";
         src = pkgs.fetchFromGitHub {
           owner = "ggml-org";
           repo = "llama.cpp";
-          rev = "b8661";
-          hash = "sha256-6PobySuY7jfXyHKyM5cVslcuz2M33vOj5dZ3nbA20RU=";
+          rev = "b10435";
+          hash = "sha256-k6+u4Z0ehsBsUPvwXkEQ0zcVkNdC9BiuehA1S+VZLQM=";
         };
+        # O b10435 moveu a interface de tools/server/webui para tools/ui,
+        # enquanto o Nixpkgs fixado ainda usa o caminho antigo.
+        npmRoot = "tools/ui";
+        npmDepsHash = "sha256-2Q7XhaLAArmviOLdQsNbYTfdyDE5pW9lR26cRHEVl9k=";
         postPatch = "";
         cmakeFlags =
           builtins.filter (flag: (builtins.match ".*CMAKE_CUDA_ARCHITECTURES.*" flag) == null) (
