@@ -36,6 +36,13 @@ assert_contains docs/qwen35-9b.md 'agora fica como preset manual'
 assert_contains docs/qwen35-9b.md '`http://127.0.0.1:8082`'
 assert_not_contains docs/qwen35-9b.md '`ctx-size=8192`'
 
+assert_contains docs/qwen38-27b.md '`Qwen3.8-27B-UD-Q3_K_XL.gguf`'
+assert_contains docs/qwen38-27b.md '`ctx-size=102400`'
+assert_contains docs/qwen38-27b.md '`cache-type-k=q4_0`'
+assert_contains docs/qwen38-27b.md '`cache-type-v=q4_0`'
+assert_contains docs/qwen38-27b.md 'MTP desativado neste perfil'
+assert_contains docs/qwen38-27b.md '`http://127.0.0.1:8082`'
+
 assert_contains docs/gemma4-e4b.md '`ctx-size=131072`'
 assert_contains docs/gemma4-e4b.md '`cache-type-k=f16`'
 assert_contains docs/gemma4-e4b.md '`cache-type-v=f16`'

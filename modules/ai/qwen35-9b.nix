@@ -202,6 +202,7 @@ in
 
   systemd.user.services.qwen35-9b-server = ai.mkUserService {
     description = "Qwen 3.5 9B local OpenAI-compatible server";
+    conflicts = [ "qwen38-27b-server.service" ];
     environment = [
       "QWEN35_9B_PROFILE=thinking-general"
       "QWEN35_9B_CTX=131072"
