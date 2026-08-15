@@ -129,6 +129,11 @@ printf 'Remote desktop contract OK\n'
 flake_file="$repo_root/flake.nix"
 packages_file="$repo_root/modules/common/packages.nix"
 
+require_fixed 'nodejs-nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";' "$flake_file"
+require_fixed 'nodeRuntimePackages = import inputs.nodejs-nixpkgs' "$packages_file"
+require_fixed 'nodeRuntimePackages.nodejs_24' "$packages_file"
+reject_fixed '    nodejs' "$packages_file"
+
 require_fixed 'ags = {' "$flake_file"
 require_fixed 'url = "github:aylur/ags";' "$flake_file"
 require_fixed 'agsPackages = inputs.ags.packages.${pkgs.stdenv.hostPlatform.system};' "$packages_file"

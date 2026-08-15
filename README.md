@@ -48,7 +48,7 @@ Este repo concentra o que realmente muda o comportamento da maquina: boot, deskt
 - `modules/common/maintenance.nix`: GC do Nix, otimizacao do store e retencao do journald.
 - `modules/common/host-context.nix`: usuario principal e caminhos-base compartilhados pelos modulos do host.
 - `modules/common/desktop.nix`: X11, greetd/tuigreet, Hyprland, Steam, NVIDIA/AMD, NVIDIA Container Toolkit, Bluetooth/BlueZ, XRDP, PipeWire e Tailscale.
-- `modules/common/packages.nix`: pacotes globais, ferramentas do dia a dia, runtime/toolchain CUDA, Discord, `agsFull` do upstream e `stow` para aplicar a configuracao ativa do desktop.
+- `modules/common/packages.nix`: pacotes globais, ferramentas do dia a dia, Node 24 LTS vindo de um input isolado, runtime/toolchain CUDA, Discord, `agsFull` do upstream e `stow` para aplicar a configuracao ativa do desktop.
 - `modules/common/quickshell-core.nix`: runtime do Quickshell e dependencias da barra/widgets.
 - `modules/ai/default.nix`: entrypoint dos presets e wrappers locais de IA.
 - `modules/ai/common.nix`: helper compartilhado para `llama.cpp`, downloads e serviços locais de IA.

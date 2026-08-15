@@ -4,6 +4,9 @@ let
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
   };
+  nodeRuntimePackages = import inputs.nodejs-nixpkgs {
+    system = pkgs.stdenv.hostPlatform.system;
+  };
   lutrisPackages = import inputs.nixpkgs-lutris {
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
@@ -136,7 +139,7 @@ in
     # --- Development ---
     neovim
     tmux
-    nodejs
+    nodeRuntimePackages.nodejs_24
     gcc
     gnumake
     cmake

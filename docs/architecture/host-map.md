@@ -16,7 +16,7 @@ Mapa curto do host `nixos` e dos limites deste repositorio.
 - `modules/common/base.nix`: boot, locale, usuario, Docker, fontes, shell, OpenSSH e base do sistema
 - `modules/common/maintenance.nix`: GC do Nix, otimizacao do store e limite do journald
 - `modules/common/desktop.nix`: X11, greetd/tuigreet, Hyprland, GPU hibrida, NVIDIA Container Toolkit, Bluetooth/BlueZ, UPower, XRDP, audio, Tailscale e portals
-- `modules/common/packages.nix`: ferramentas globais, pacotes do dia a dia, `agsFull` do upstream e `stow` para a camada ativa de dotfiles
+- `modules/common/packages.nix`: ferramentas globais, Node 24 LTS fixado pelo input isolado `nodejs-nixpkgs`, pacotes do dia a dia, `agsFull` do upstream e `stow` para a camada ativa de dotfiles
 - `modules/common/quickshell-core.nix`: runtime e dependencias do Quickshell
 - `modules/ai/qwen35-9b.nix`: preset 9B, wrappers e servico manual
 - `modules/ai/gemma4-e4b.nix`: preset Gemma 4 E4B e wrappers para uso manual

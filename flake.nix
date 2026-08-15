@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-unstable.follows = "nixpkgs";
+    nodejs-nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     mt7902-temp = {
       url = "github:OnlineLearningTutorials/mt7902_temp";
       flake = false;
