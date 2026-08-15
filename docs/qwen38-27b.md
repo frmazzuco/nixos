@@ -6,6 +6,8 @@ padrão. Ele usa o GGUF `Qwen3.8-27B-UD-Q3_K_XL.gguf`, publicado no repositório
 
 O serviço atende somente em `http://127.0.0.1:8082`. A exposição na Tailnet é
 feita separadamente pelo Tailscale Serve; não há porta aberta na rede local.
+Por ser uma unidade global de usuário, ela tem `ConditionUser=fmazzuco` para
+não disputar a porta em sessões de outros usuários, especialmente `root`.
 
 ## Ajustes padrão
 

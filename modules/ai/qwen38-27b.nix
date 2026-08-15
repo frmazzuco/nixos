@@ -204,23 +204,27 @@ in
     qwen38_27BServer
   ];
 
-  systemd.user.services.qwen38-27b-server = ai.mkUserService {
-    description = "Qwen 3.8 27B local OpenAI-compatible server";
-    conflicts = [
-      "qwen35-9b-server.service"
-      "gemma4-e4b-server.service"
-      "gemma4-26b-server.service"
-      "gemma4-31b-server.service"
-    ];
-    wantedBy = [ "default.target" ];
-    environment = [
-      "QWEN38_27B_PROFILE=thinking-general"
-      "QWEN38_27B_CTX=102400"
-      "QWEN38_27B_BATCH=2048"
-      "QWEN38_27B_UBATCH=512"
-      "QWEN38_27B_CACHE_K=q4_0"
-      "QWEN38_27B_CACHE_V=q4_0"
-    ];
-    execStart = "${qwen38_27BServer}/bin/qwen38-27b-server";
-  };
+  systemd.user.services.qwen38-27b-server =
+    (ai.mkUserService {
+      description = "Qwen 3.8 27B local OpenAI-compatible server";
+      conflicts = [
+        "qwen35-9b-server.service"
+        "gemma4-e4b-server.service"
+        "gemma4-26b-server.service"
+        "gemma4-31b-server.service"
+      ];
+      wantedBy = [ "default.target" ];
+      environment = [
+        "QWEN38_27B_PROFILE=thinking-general"
+        "QWEN38_27B_CTX=102400"
+        "QWEN38_27B_BATCH=2048"
+        "QWEN38_27B_UBATCH=512"
+        "QWEN38_27B_CACHE_K=q4_0"
+        "QWEN38_27B_CACHE_V=q4_0"
+      ];
+      execStart = "${qwen38_27BServer}/bin/qwen38-27b-server";
+    })
+    // {
+      unitConfig.ConditionUser = config.workstation.userName;
+    };
 }

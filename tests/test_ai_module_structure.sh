@@ -14,6 +14,7 @@ require_fixed 'mkUserService' "$common_file"
 require_fixed 'llamaCppCuda' "$common_file"
 require_fixed '"qwen35-9b" = 8082;' "$ports_file"
 require_fixed '"qwen38-27b" = 8082;' "$ports_file"
+require_fixed 'unitConfig.ConditionUser = config.workstation.userName;' "$repo_root/modules/ai/qwen38-27b.nix"
 
 for module in "$repo_root"/modules/ai/qwen*.nix; do
     require_fixed 'ai = import ./common.nix { inherit pkgs inputs config; };' "$module"
