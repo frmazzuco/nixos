@@ -10,15 +10,17 @@ feita separadamente pelo Tailscale Serve; não há porta aberta na rede local.
 ## Ajustes padrão
 
 - `ctx-size=102400`;
-- lote `1024` e microlote `256`;
+- lote `2048` e microlote `512`;
 - `cache-type-k=q4_0` e `cache-type-v=q4_0`;
 - todas as camadas principais na GPU;
+- cache de prompt ativo para reaproveitar o prefixo entre turnos;
 - MTP desativado neste perfil para não exceder os 16 GB de VRAM;
 - perfil `thinking-general`;
 - uma requisição paralela.
 
 O ensaio na RTX 5070 Ti consumiu cerca de 14,8 GB de VRAM com contexto de
-102.400 tokens e manteve aproximadamente 50 tokens por segundo na geração.
+102.400 tokens. A leitura inicial de 32 mil tokens alcançou cerca de 1.541
+tokens por segundo; numa repetição, 32.059 tokens foram reaproveitados.
 
 ## Operação
 

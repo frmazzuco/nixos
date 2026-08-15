@@ -93,8 +93,8 @@ let
       --presence-penalty "''${QWEN38_27B_PRESENCE_PENALTY:-$DEFAULT_PRESENCE_PENALTY}" \
       --repeat-penalty "''${QWEN38_27B_REPEAT_PENALTY:-$DEFAULT_REPEAT_PENALTY}" \
       --ctx-size "''${QWEN38_27B_CTX:-102400}" \
-      --batch-size "''${QWEN38_27B_BATCH:-1024}" \
-      --ubatch-size "''${QWEN38_27B_UBATCH:-256}" \
+      --batch-size "''${QWEN38_27B_BATCH:-2048}" \
+      --ubatch-size "''${QWEN38_27B_UBATCH:-512}" \
       --threads "''${QWEN38_27B_THREADS:-12}" \
       --threads-batch "''${QWEN38_27B_THREADS_BATCH:-12}" \
       --flash-attn on \
@@ -172,6 +172,7 @@ let
       --port "''${QWEN38_27B_PORT:-${toString ports."qwen38-27b"}}" \
       --jinja \
       --no-prefill-assistant \
+      --cache-prompt \
       --reasoning-format "''${QWEN38_27B_REASONING_FORMAT:-$DEFAULT_REASONING_FORMAT}" \
       --reasoning-budget "''${QWEN38_27B_REASONING_BUDGET:-$DEFAULT_REASONING_BUDGET}" \
       --temp "''${QWEN38_27B_TEMP:-$DEFAULT_TEMP}" \
@@ -181,8 +182,8 @@ let
       --presence-penalty "''${QWEN38_27B_PRESENCE_PENALTY:-$DEFAULT_PRESENCE_PENALTY}" \
       --repeat-penalty "''${QWEN38_27B_REPEAT_PENALTY:-$DEFAULT_REPEAT_PENALTY}" \
       --ctx-size "''${QWEN38_27B_CTX:-102400}" \
-      --batch-size "''${QWEN38_27B_BATCH:-1024}" \
-      --ubatch-size "''${QWEN38_27B_UBATCH:-256}" \
+      --batch-size "''${QWEN38_27B_BATCH:-2048}" \
+      --ubatch-size "''${QWEN38_27B_UBATCH:-512}" \
       --threads "''${QWEN38_27B_THREADS:-12}" \
       --threads-batch "''${QWEN38_27B_THREADS_BATCH:-12}" \
       --flash-attn on \
@@ -215,8 +216,8 @@ in
     environment = [
       "QWEN38_27B_PROFILE=thinking-general"
       "QWEN38_27B_CTX=102400"
-      "QWEN38_27B_BATCH=1024"
-      "QWEN38_27B_UBATCH=256"
+      "QWEN38_27B_BATCH=2048"
+      "QWEN38_27B_UBATCH=512"
       "QWEN38_27B_CACHE_K=q4_0"
       "QWEN38_27B_CACHE_V=q4_0"
     ];

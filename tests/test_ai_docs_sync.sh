@@ -40,6 +40,8 @@ assert_contains docs/qwen38-27b.md '`Qwen3.8-27B-UD-Q3_K_XL.gguf`'
 assert_contains docs/qwen38-27b.md '`ctx-size=102400`'
 assert_contains docs/qwen38-27b.md '`cache-type-k=q4_0`'
 assert_contains docs/qwen38-27b.md '`cache-type-v=q4_0`'
+assert_contains docs/qwen38-27b.md 'lote `2048` e microlote `512`'
+assert_contains docs/qwen38-27b.md 'cache de prompt ativo'
 assert_contains docs/qwen38-27b.md 'MTP desativado neste perfil'
 assert_contains docs/qwen38-27b.md '`http://127.0.0.1:8082`'
 
